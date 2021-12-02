@@ -1,0 +1,28 @@
+name: Build and Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "releases/*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate Package Json
+        uses: ./
+        with:
+          rules: |
+            ranges
+            tags
