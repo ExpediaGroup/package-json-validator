@@ -11,18 +11,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { PackageJson } from 'type-fest';
 import * as core from '@actions/core';
+import { PackageJson } from 'type-fest';
+import { getDependencies } from './get-dependencies';
 
-export const getDependencies = (packageJson: PackageJson) => {
-  const dependencyType = core.getInput('dependency-type') as keyof Pick<
-    PackageJson,
-    'dependencies' | 'devDependencies' | 'peerDependencies' | 'optionalDependencies'
-  >;
-  const dependencies = packageJson[dependencyType];
-  if (!dependencies) {
-    core.setFailed('Dependencies in package.json are undefined.');
-    throw new Error();
-  }
-  return dependencies;
+export const validateDependencies = (
+  method: (packageName: string, version: string, extraInputValue: string[]) => void,
+  packageJson: PackageJson,
+  extraInputName: string
+) => {
+  const dependencies = getDependencies(packageJson);
+  Object.entries(dependencies).forEach(([packageName, version]) =>
+    method(packageName, version, core.getMultilineInput(extraInputName))
+  );
 };

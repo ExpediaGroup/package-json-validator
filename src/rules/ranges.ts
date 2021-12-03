@@ -13,7 +13,7 @@ limitations under the License.
 
 import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
-import { validateDependencies } from '../utils/validateDependencies';
+import { validateDependencies } from '../utils/validate-dependencies';
 
 export const validateVersionRanges = (packageJson: PackageJson, extraInputName: string) => {
   validateDependencies(dependencySatisfiesAllowedRanges, packageJson, extraInputName);
