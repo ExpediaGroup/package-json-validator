@@ -15,6 +15,8 @@
   "rules": {
     "eslint-comments/no-use": "off",
     "import/no-namespace": "off",
+    "import/no-unresolved": "off",
+    "i18n-text/no-en": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/explicit-member-accessibility": [
