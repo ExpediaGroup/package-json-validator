@@ -27,7 +27,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issue = exports.issueCommand = void 0;
-const os = __importStar(__nccwpck_require__(87));
+const os = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(278);
 /**
  * Commands
@@ -137,8 +137,8 @@ exports.getState = exports.saveState = exports.group = exports.endGroup = export
 const command_1 = __nccwpck_require__(351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
+const os = __importStar(__nccwpck_require__(37));
+const path = __importStar(__nccwpck_require__(17));
 /**
  * The code to exit an action
  */
@@ -439,8 +439,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issueCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__nccwpck_require__(747));
-const os = __importStar(__nccwpck_require__(87));
+const fs = __importStar(__nccwpck_require__(147));
+const os = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(278);
 function issueCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
@@ -504,24 +504,304 @@ exports.toCommandProperties = toCommandProperties;
 
 /***/ }),
 
-/***/ 747:
-/***/ ((module) => {
+/***/ 399:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-module.exports = require("fs");;
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = exports.RULES_MAP = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const fs_1 = __nccwpck_require__(147);
+const ranges_1 = __nccwpck_require__(507);
+const tags_1 = __nccwpck_require__(130);
+exports.RULES_MAP = {
+    ranges: {
+        method: ranges_1.validateVersionRanges,
+        extraInputName: 'allowed-ranges'
+    },
+    tags: {
+        method: tags_1.validateVersionTags,
+        extraInputName: 'allowed-tags'
+    }
+};
+const run = () => {
+    try {
+        const packageJson = JSON.parse(fs_1.readFileSync('./package.json').toString());
+        const rules = core.getMultilineInput('rules', { required: true });
+        rules.forEach(rule => {
+            const { method, extraInputName } = exports.RULES_MAP[rule];
+            method(packageJson, extraInputName);
+        });
+    }
+    catch (error) {
+        core.setFailed(error.message);
+    }
+};
+exports.run = run;
+exports.run();
+
 
 /***/ }),
 
-/***/ 87:
-/***/ ((module) => {
+/***/ 507:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-module.exports = require("os");;
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.dependencySatisfiesAllowedRanges = exports.validateVersionRanges = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const validateDependencies_1 = __nccwpck_require__(98);
+const validateVersionRanges = (packageJson, extraInputName) => {
+    validateDependencies_1.validateDependencies(exports.dependencySatisfiesAllowedRanges, packageJson, extraInputName);
+};
+exports.validateVersionRanges = validateVersionRanges;
+const dependencySatisfiesAllowedRanges = (packageName, version, allowedVersionRanges) => {
+    const regexPattern = `^[\\d${allowedVersionRanges.join()}]`;
+    const versionIsValid = new RegExp(regexPattern).test(version);
+    if (!versionIsValid) {
+        core.setFailed(`Dependency "${packageName}": "${version}" has an invalid version range.`);
+    }
+};
+exports.dependencySatisfiesAllowedRanges = dependencySatisfiesAllowedRanges;
+
 
 /***/ }),
 
-/***/ 622:
+/***/ 130:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.dependencySatisfiesAllowedTags = exports.validateVersionTags = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const validateDependencies_1 = __nccwpck_require__(98);
+const validateVersionTags = (packageJson, extraInputName) => {
+    validateDependencies_1.validateDependencies(exports.dependencySatisfiesAllowedTags, packageJson, extraInputName);
+};
+exports.validateVersionTags = validateVersionTags;
+const dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
+    const versionContainsTag = new RegExp(/[a-zA-Z]/g).test(version);
+    const versionIsValid = !versionContainsTag || allowedTags.some(tag => version.includes(tag));
+    if (!versionIsValid) {
+        core.setFailed(`Dependency "${packageName}": "${version}" has an invalid tag.`);
+    }
+};
+exports.dependencySatisfiesAllowedTags = dependencySatisfiesAllowedTags;
+
+
+/***/ }),
+
+/***/ 974:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getDependencies = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const getDependencies = (packageJson) => {
+    const dependencyType = core.getInput('dependency-type');
+    const dependencies = packageJson[dependencyType];
+    if (!dependencies) {
+        core.setFailed('Dependencies in package.json are undefined.');
+        throw new Error();
+    }
+    return dependencies;
+};
+exports.getDependencies = getDependencies;
+
+
+/***/ }),
+
+/***/ 98:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateDependencies = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const getDependencies_1 = __nccwpck_require__(974);
+const validateDependencies = (method, packageJson, extraInputName) => {
+    const dependencies = getDependencies_1.getDependencies(packageJson);
+    Object.entries(dependencies).forEach(([packageName, version]) => method(packageName, version, core.getMultilineInput(extraInputName)));
+};
+exports.validateDependencies = validateDependencies;
+
+
+/***/ }),
+
+/***/ 147:
 /***/ ((module) => {
 
-module.exports = require("path");;
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 37:
+/***/ ((module) => {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 17:
+/***/ ((module) => {
+
+module.exports = require("path");
 
 /***/ })
 
@@ -558,194 +838,18 @@ module.exports = require("path");;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-// ESM COMPAT FLAG
-__nccwpck_require__.r(__webpack_exports__);
-
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "RULES_MAP": () => (/* binding */ RULES_MAP),
-  "run": () => (/* binding */ run)
-});
-
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(186);
-// EXTERNAL MODULE: external "fs"
-var external_fs_ = __nccwpck_require__(747);
-;// CONCATENATED MODULE: ./src/utils/getDependencies.ts
-/*
-Copyright 2021 Expedia, Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    https://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-const getDependencies = (packageJson) => {
-    const dependencyType = core.getInput('dependency-type');
-    const dependencies = packageJson[dependencyType];
-    if (!dependencies) {
-        core.setFailed('Dependencies in package.json are undefined.');
-        throw new Error();
-    }
-    return dependencies;
-};
-
-;// CONCATENATED MODULE: ./src/utils/validateDependencies.ts
-/*
-Copyright 2021 Expedia, Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    https://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-const validateDependencies = (method, packageJson, extraInputName) => {
-    const dependencies = getDependencies(packageJson);
-    Object.entries(dependencies).forEach(([packageName, version]) => method(packageName, version, core.getMultilineInput(extraInputName)));
-};
-
-;// CONCATENATED MODULE: ./src/rules/ranges.ts
-/*
-Copyright 2021 Expedia, Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    https://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-const validateVersionRanges = (packageJson, extraInputName) => {
-    validateDependencies(dependencySatisfiesAllowedRanges, packageJson, extraInputName);
-};
-const dependencySatisfiesAllowedRanges = (packageName, version, allowedVersionRanges) => {
-    const regexPattern = `^[\\d${allowedVersionRanges.join()}]`;
-    const versionIsValid = new RegExp(regexPattern).test(version);
-    if (!versionIsValid) {
-        core.setFailed(`Dependency "${packageName}": "${version}" has an invalid version range.`);
-    }
-};
-
-;// CONCATENATED MODULE: ./src/rules/tags.ts
-/*
-Copyright 2021 Expedia, Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    https://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-const validateVersionTags = (packageJson, extraInputName) => {
-    validateDependencies(dependencySatisfiesAllowedTags, packageJson, extraInputName);
-};
-const dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
-    const versionContainsTag = new RegExp(/[a-zA-Z]/g).test(version);
-    const versionIsValid = !versionContainsTag || allowedTags.some(tag => version.includes(tag));
-    if (!versionIsValid) {
-        core.setFailed(`Dependency "${packageName}": "${version}" has an invalid tag.`);
-    }
-};
-
-;// CONCATENATED MODULE: ./src/main.ts
-/*
-Copyright 2021 Expedia, Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    https://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-
-
-const RULES_MAP = {
-    ranges: {
-        method: validateVersionRanges,
-        extraInputName: 'allowed-ranges'
-    },
-    tags: {
-        method: validateVersionTags,
-        extraInputName: 'allowed-tags'
-    }
-};
-const run = () => {
-    try {
-        const packageJson = JSON.parse((0,external_fs_.readFileSync)('./package.json').toString());
-        const rules = core.getMultilineInput('rules', { required: true });
-        rules.forEach(rule => {
-            const { method, extraInputName } = RULES_MAP[rule];
-            method(packageJson, extraInputName);
-        });
-    }
-    catch (error) {
-        core.setFailed(error.message);
-    }
-};
-run();
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(399);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
