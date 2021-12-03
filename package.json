@@ -24,17 +24,17 @@
   "author": "Dan Adajian",
   "license": "Apache-2.0",
   "dependencies": {
-    "@actions/core": "1.5.0",
+    "@actions/core": "1.6.0",
     "@actions/github": "5.0.0",
     "@types/node": "16.11.11"
   },
   "devDependencies": {
-    "@types/jest": "27.0.1",
-    "@typescript-eslint/eslint-plugin": "4.26.1",
+    "@types/jest": "27.0.3",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "@vercel/ncc": "0.32.0",
     "eslint": "7.32.0",
-    "eslint-plugin-github": "4.1.3",
+    "eslint-plugin-github": "4.3.2",
     "eslint-plugin-jest": "24.3.6",
     "eslint-plugin-prettier": "4.0.0",
     "jest": "27.4.3",

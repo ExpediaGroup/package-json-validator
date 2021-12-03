@@ -13,7 +13,7 @@ limitations under the License.
 
 import { PackageJson } from 'type-fest';
 import * as core from '@actions/core';
-import { getDependencies } from '../../src/utils/getDependencies';
+import { getDependencies } from '../../src/utils/get-dependencies';
 
 jest.mock('@actions/core');
 

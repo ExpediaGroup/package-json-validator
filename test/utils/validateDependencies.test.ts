@@ -12,11 +12,11 @@ limitations under the License.
 */
 
 import * as core from '@actions/core';
-import { getDependencies } from '../../src/utils/getDependencies';
-import { validateDependencies } from '../../src/utils/validateDependencies';
+import { getDependencies } from '../../src/utils/get-dependencies';
+import { validateDependencies } from '../../src/utils/validate-dependencies';
 
 jest.mock('@actions/core');
-jest.mock('../../src/utils/getDependencies');
+jest.mock('../../src/utils/get-dependencies');
 
 describe('validateDependencies', () => {
   describe('no dependencies case', () => {
