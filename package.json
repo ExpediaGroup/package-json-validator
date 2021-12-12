@@ -6,7 +6,7 @@
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint --fix src/**/*.ts test/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "pre-commit": "yarn lint && yarn format && yarn package && git add .",
     "prepare": "husky install",
@@ -26,23 +26,23 @@
   "dependencies": {
     "@actions/core": "1.6.0",
     "@actions/github": "5.0.0",
-    "@types/node": "16.11.11"
+    "@types/node": "16.11.12"
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@typescript-eslint/eslint-plugin": "4.33.0",
-    "@typescript-eslint/parser": "4.33.0",
+    "@typescript-eslint/eslint-plugin": "5.6.0",
+    "@typescript-eslint/parser": "5.6.0",
     "@vercel/ncc": "0.33.0",
-    "eslint": "7.32.0",
-    "eslint-plugin-github": "4.3.2",
-    "eslint-plugin-jest": "24.3.6",
+    "eslint": "8.4.1",
+    "eslint-plugin-github": "4.3.5",
+    "eslint-plugin-jest": "25.3.0",
     "eslint-plugin-prettier": "4.0.0",
-    "jest": "27.4.3",
+    "jest": "27.4.4",
     "husky": "7.0.4",
     "prettier": "2.5.1",
-    "ts-jest": "27.1.0",
+    "ts-jest": "27.1.1",
     "type-fest": "2.8.0",
-    "typescript": "4.3.2"
+    "typescript": "4.5.3"
   },
   "jest": {
     "transform": {

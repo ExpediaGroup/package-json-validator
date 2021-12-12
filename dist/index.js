@@ -1609,7 +1609,7 @@ exports.RULES_MAP = {
 };
 const run = () => {
     try {
-        const packageJson = JSON.parse(fs_1.readFileSync('./package.json').toString());
+        const packageJson = JSON.parse((0, fs_1.readFileSync)('./package.json').toString());
         const rules = core.getMultilineInput('rules', { required: true });
         rules.forEach(rule => {
             const { method, extraInputName } = exports.RULES_MAP[rule];
@@ -1621,7 +1621,7 @@ const run = () => {
     }
 };
 exports.run = run;
-exports.run();
+(0, exports.run)();
 
 
 /***/ }),
@@ -1667,7 +1667,7 @@ exports.dependencySatisfiesAllowedRanges = exports.validateVersionRanges = void 
 const core = __importStar(__nccwpck_require__(186));
 const validate_dependencies_1 = __nccwpck_require__(786);
 const validateVersionRanges = (packageJson, extraInputName) => {
-    validate_dependencies_1.validateDependencies(exports.dependencySatisfiesAllowedRanges, packageJson, extraInputName);
+    (0, validate_dependencies_1.validateDependencies)(exports.dependencySatisfiesAllowedRanges, packageJson, extraInputName);
 };
 exports.validateVersionRanges = validateVersionRanges;
 const dependencySatisfiesAllowedRanges = (packageName, version, allowedVersionRanges) => {
@@ -1723,7 +1723,7 @@ exports.dependencySatisfiesAllowedTags = exports.validateVersionTags = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const validate_dependencies_1 = __nccwpck_require__(786);
 const validateVersionTags = (packageJson, extraInputName) => {
-    validate_dependencies_1.validateDependencies(exports.dependencySatisfiesAllowedTags, packageJson, extraInputName);
+    (0, validate_dependencies_1.validateDependencies)(exports.dependencySatisfiesAllowedTags, packageJson, extraInputName);
 };
 exports.validateVersionTags = validateVersionTags;
 const dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
@@ -1832,7 +1832,7 @@ exports.validateDependencies = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const get_dependencies_1 = __nccwpck_require__(715);
 const validateDependencies = (method, packageJson, extraInputName) => {
-    const dependencies = get_dependencies_1.getDependencies(packageJson);
+    const dependencies = (0, get_dependencies_1.getDependencies)(packageJson);
     Object.entries(dependencies).forEach(([packageName, version]) => method(packageName, version, core.getMultilineInput(extraInputName)));
 };
 exports.validateDependencies = validateDependencies;

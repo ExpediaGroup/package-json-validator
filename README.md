@@ -18,7 +18,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: ranges
 ```
@@ -29,7 +29,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: ranges
       allowed-ranges: ^
@@ -45,7 +45,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: tags
 ```
@@ -57,7 +57,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: tags
       allowed-tags: canary
@@ -70,7 +70,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: |
         ranges
@@ -89,7 +89,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v2
 
-  - uses: actions/package-json-validator@v1
+  - uses: ExpediaGroup/package-json-validator@v1
     with:
       rules: ranges
       dependency-type: devDependencies

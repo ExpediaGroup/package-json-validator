@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { dependencySatisfiesAllowedTags } from '../../src/rules/tags';
 import * as core from '@actions/core';
+import { dependencySatisfiesAllowedTags } from '../../src/rules/tags';
 
 jest.mock('@actions/core');
 
