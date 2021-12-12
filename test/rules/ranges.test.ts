@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { dependencySatisfiesAllowedRanges } from '../../src/rules/ranges';
 import * as core from '@actions/core';
+import { dependencySatisfiesAllowedRanges } from '../../src/rules/ranges';
 
 jest.mock('@actions/core');
 

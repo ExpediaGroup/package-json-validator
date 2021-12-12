@@ -1,0 +1,21 @@
+name: Check PR Title
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ edited, opened, reopened, synchronize ]
+
+jobs:
+  test:
+    name: PR Title Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check Title
+        uses: ExpediaGroup/github-helpers@v1
+        with:
+          helper: check-pr-title
+          pull_number: ${{ github.event.pull_request.number }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

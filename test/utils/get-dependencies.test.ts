@@ -11,15 +11,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { PackageJson } from 'type-fest';
 import * as core from '@actions/core';
+import { PackageJson } from 'type-fest';
 import { getDependencies } from '../../src/utils/get-dependencies';
 
 jest.mock('@actions/core');
 
 describe('getDependencies', () => {
   describe('dependencies exist case', () => {
-    let result: any;
+    let result: unknown;
     const dependencies = {
       'some-package': '1.2.3'
     };

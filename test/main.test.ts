@@ -13,8 +13,8 @@ limitations under the License.
 
 import * as core from '@actions/core'
 import { RULES_MAP, run } from '../src/main';
-import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
+import { readFileSync } from 'fs';
 import { validateVersionRanges } from '../src/rules/ranges';
 import { validateVersionTags } from '../src/rules/tags';
 

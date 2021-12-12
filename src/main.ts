@@ -12,8 +12,8 @@ limitations under the License.
 */
 
 import * as core from '@actions/core';
-import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
+import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
 
@@ -42,7 +42,7 @@ export const run = () => {
       const { method, extraInputName } = RULES_MAP[rule];
       method(packageJson, extraInputName);
     });
-  } catch (error) {
+  } catch (error: any) {
     core.setFailed(error.message);
   }
 };
