@@ -1,0 +1,17 @@
+name: Prepare Queued PR For Merge
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: ExpediaGroup/github-helpers@v1
+        with:
+          helper: prepare-queued-pr-for-merge
+          github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} # must have repo:write permission
