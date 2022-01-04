@@ -14,13 +14,18 @@ limitations under the License.
 import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
 
-export const getDependencies = (packageJson: PackageJson) => {
-  const dependencyType = core.getInput('dependency-type') as keyof Pick<
-    PackageJson,
-    'dependencies' | 'devDependencies' | 'peerDependencies' | 'optionalDependencies'
-  >;
-  const dependencies = packageJson[dependencyType];
-  if (!dependencies) {
+type Dependencies = keyof Pick<
+  PackageJson,
+  'dependencies' | 'devDependencies' | 'peerDependencies' | 'optionalDependencies'
+>;
+
+export const getDependencies = (packageJson: PackageJson): PackageJson.Dependency => {
+  const dependencyTypes = core.getMultilineInput('dependency-types') as Dependencies[];
+  const dependencies = dependencyTypes.reduce(
+    (acc, dependencyType) => ({ ...acc, ...packageJson[dependencyType] }),
+    {}
+  );
+  if (!Object.keys(dependencies).length) {
     core.setFailed('Dependencies in package.json are undefined.');
     throw new Error();
   }

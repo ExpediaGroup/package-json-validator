@@ -1778,9 +1778,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDependencies = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const getDependencies = (packageJson) => {
-    const dependencyType = core.getInput('dependency-type');
-    const dependencies = packageJson[dependencyType];
-    if (!dependencies) {
+    const dependencyTypes = core.getMultilineInput('dependency-types');
+    const dependencies = dependencyTypes.reduce((acc, dependencyType) => (Object.assign(Object.assign({}, acc), packageJson[dependencyType])), {});
+    if (!Object.keys(dependencies).length) {
         core.setFailed('Dependencies in package.json are undefined.');
         throw new Error();
     }

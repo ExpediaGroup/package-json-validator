@@ -29,7 +29,7 @@ describe('getDependencies', () => {
     }
 
     beforeEach(() => {
-      (core.getInput as jest.Mock).mockReturnValue('dependencies');
+      (core.getMultilineInput as jest.Mock).mockReturnValue(['dependencies']);
       result = getDependencies(packageJson);
     });
 
@@ -39,13 +39,39 @@ describe('getDependencies', () => {
     });
   });
 
+  describe('multiple dependencies case', () => {
+    let result: unknown;
+    const packageJson: PackageJson = {
+      name: 'my-package-json',
+      dependencies: {
+        'some-package': '1.2.3'
+      },
+      devDependencies: {
+        'some-other-package': '1.2.3'
+      }
+    }
+
+    beforeEach(() => {
+      (core.getMultilineInput as jest.Mock).mockReturnValue(['dependencies', 'devDependencies']);
+      result = getDependencies(packageJson);
+    });
+
+    it('should return expected result', () => {
+      expect(core.setFailed).not.toHaveBeenCalled();
+      expect(result).toMatchObject({
+        'some-package': '1.2.3',
+        'some-other-package': '1.2.3'
+      });
+    });
+  });
+
   describe('dependencies do not exist case', () => {
     const packageJson: PackageJson = {
       name: 'my-package-json'
     }
 
     beforeEach(() => {
-      (core.getInput as jest.Mock).mockReturnValue('dependencies');
+      (core.getInput as jest.Mock).mockReturnValue(['dependencies']);
     });
 
     it('should return expected result', () => {
@@ -54,4 +80,3 @@ describe('getDependencies', () => {
     });
   });
 });
-
