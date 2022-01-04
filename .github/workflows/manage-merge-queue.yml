@@ -9,11 +9,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - uses: ExpediaGroup/github-helpers@v1
         with:
           helper: manage-merge-queue
           sha: ${{ github.event.pull_request.head.sha }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_access_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
