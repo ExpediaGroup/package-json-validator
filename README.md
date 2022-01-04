@@ -63,6 +63,18 @@ steps:
       allowed-tags: canary
 ```
 
+Specify `dependency-types` to denote which type of package.json dependencies you wish to validate. Valid options include `dependencies`, `devDependencies`, `peerDependencies`, and `optionalDependencies`. Defaults to `dependencies`.
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v2
+
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+      rules: ranges
+      dependency-types: devDependencies
+```
+
 ### Other Usages
 You may also enforce multiple rules (and pass additional inputs) like this:
 ```yaml
@@ -81,18 +93,9 @@ steps:
       allowed-tags: |
         alpha
         canary
-```
-
-Specify `dependency-type` to denote which type of package.json dependencies you wish to validate. Valid options include `dependencies`, `devDependencies`, `peerDependencies`, and `optionalDependencies`. Defaults to `dependencies`.
-```yaml
-steps:
-  - name: Checkout
-    uses: actions/checkout@v2
-
-  - uses: ExpediaGroup/package-json-validator@v1
-    with:
-      rules: ranges
-      dependency-type: devDependencies
+      dependency-types: |
+        dependencies
+        devDependencies
 ```
 
 # Contact

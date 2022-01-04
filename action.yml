@@ -11,8 +11,8 @@ inputs:
   allowed-tags:
     description: "Can be used with the tags rule. Line-separated list of package version tags allowed in your package.json. Omitting this input means no version tags are allowed."
     required: false
-  dependency-type:
-    description: "Specifies the dependency list to validate within your package.json."
+  dependency-types:
+    description: "Line-separated list of dependency types to validate within your package.json."
     required: false
     default: "dependencies"
 runs:
