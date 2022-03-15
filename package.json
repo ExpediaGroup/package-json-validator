@@ -6,7 +6,7 @@
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "lint": "eslint --fix src/**/*.ts test/**/*.ts",
+    "lint": "eslint --quiet --fix ./**/*.ts src/**/*.ts test/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "pre-commit": "yarn lint && yarn format && yarn package && git add .",
     "prepare": "husky install",

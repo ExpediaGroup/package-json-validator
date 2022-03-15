@@ -17,6 +17,11 @@ import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
 
+type GithubError = {
+  status: number;
+  message: string;
+};
+
 export const RULES_MAP: {
   [key: string]: {
     method: (packageJson: PackageJson, extraInputName: string) => void;
@@ -42,8 +47,8 @@ export const run = () => {
       const { method, extraInputName } = RULES_MAP[rule];
       method(packageJson, extraInputName);
     });
-  } catch (error: any) {
-    core.setFailed(error.message);
+  } catch (error) {
+    core.setFailed((error as GithubError).message);
   }
 };
 
