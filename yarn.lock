@@ -2,29 +2,22 @@
 # yarn lockfile v1
 
 
-"@actions/core@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.npmjs.org/@actions/core/-/core-1.6.0.tgz#0568e47039bfb6a9170393a73f3b7eb3b22462cb"
-  integrity sha512-NB1UAZomZlCV/LmJqkLhNTqtKfFXJZAUPcfl/zqG7EfsQdeUJtaWO98SGbuQ3pydJ3fHl2CvI/51OKYlCYYcaw==
+"@actions/core@1.8.2":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.8.2.tgz#67539d669ae9b751430469e9ae4d83e0525973ac"
+  integrity sha512-FXcBL7nyik8K5ODeCKlxi+vts7torOkoDAKfeh61EAkAy1HAvwn9uVzZBY0f15YcQTcZZ2/iSGBFHEuioZWfDA==
   dependencies:
-    "@actions/http-client" "^1.0.11"
+    "@actions/http-client" "^2.0.1"
 
 "@actions/github@5.0.3":
   version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@actions/github/-/github-5.0.3.tgz#b305765d6173962d113451ea324ff675aa674f35"
+  resolved "https://registry.npmjs.org/@actions/github/-/github-5.0.3.tgz#b305765d6173962d113451ea324ff675aa674f35"
   integrity sha512-myjA/pdLQfhUGLtRZC/J4L1RXOG4o6aYdiEq+zr5wVVKljzbFld+xv10k1FX6IkIJtNxbAq44BdwSNpQ015P0A==
   dependencies:
     "@actions/http-client" "^2.0.1"
     "@octokit/core" "^3.6.0"
     "@octokit/plugin-paginate-rest" "^2.17.0"
     "@octokit/plugin-rest-endpoint-methods" "^5.13.0"
-
-"@actions/http-client@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.npmjs.org/@actions/http-client/-/http-client-1.0.11.tgz#c58b12e9aa8b159ee39e7dd6cbd0e91d905633c0"
-  integrity sha512-VRYHGQV1rqnROJqdMvGUbY/Kn8vriQe/F9HR2AlYHzmKuM/p3kjNuXhmdBfcVgsvRWTz5C5XW5xvndZrVBuAYg==
-  dependencies:
-    tunnel "0.0.6"
 
 "@actions/http-client@^2.0.1":
   version "2.0.1"
@@ -755,7 +748,7 @@
 
 "@octokit/core@^3.6.0":
   version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.6.0.tgz#3376cb9f3008d9b3d110370d90e0a1fcd5fe6085"
+  resolved "https://registry.npmjs.org/@octokit/core/-/core-3.6.0.tgz#3376cb9f3008d9b3d110370d90e0a1fcd5fe6085"
   integrity sha512-7RKRKuA4xTjMhY+eG3jthb3hlZCsOwg3rztWh75Xc+ShDWOfDDATWbeZpAHBNRpm4Tv9WgBMOy1zEJYXG6NJ7Q==
   dependencies:
     "@octokit/auth-token" "^2.4.4"
@@ -791,14 +784,14 @@
 
 "@octokit/plugin-paginate-rest@^2.17.0":
   version "2.17.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.17.0.tgz#32e9c7cab2a374421d3d0de239102287d791bce7"
+  resolved "https://registry.npmjs.org/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.17.0.tgz#32e9c7cab2a374421d3d0de239102287d791bce7"
   integrity sha512-tzMbrbnam2Mt4AhuyCHvpRkS0oZ5MvwwcQPYGtMv4tUa5kkzG58SVB0fcsLulOZQeRnOgdkZWkRUiyBlh0Bkyw==
   dependencies:
     "@octokit/types" "^6.34.0"
 
 "@octokit/plugin-rest-endpoint-methods@^5.13.0":
   version "5.13.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-5.13.0.tgz#8c46109021a3412233f6f50d28786f8e552427ba"
+  resolved "https://registry.npmjs.org/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-5.13.0.tgz#8c46109021a3412233f6f50d28786f8e552427ba"
   integrity sha512-uJjMTkN1KaOIgNtUPMtIXDOjx6dGYysdIFhgA52x4xSadQCz3b/zJexvITDVpANnfKPW/+E0xkOvLntqMYpviA==
   dependencies:
     "@octokit/types" "^6.34.0"
@@ -827,7 +820,7 @@
 
 "@octokit/request@^5.6.3":
   version "5.6.3"
-  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-5.6.3.tgz#19a022515a5bba965ac06c9d1334514eb50c48b0"
+  resolved "https://registry.npmjs.org/@octokit/request/-/request-5.6.3.tgz#19a022515a5bba965ac06c9d1334514eb50c48b0"
   integrity sha512-bFJl0I1KVc9jYTe9tdGGpAMPy32dLBXXo1dS/YwSCTL/2nd9XeHsY616RE3HPXDVk+a+dBuzyz5YdlXwcDTr2A==
   dependencies:
     "@octokit/endpoint" "^6.0.1"
@@ -3738,7 +3731,7 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tunnel@0.0.6, tunnel@^0.0.6:
+tunnel@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
   integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==

@@ -13,30 +13,30 @@ limitations under the License.
 
 import * as core from '@actions/core'
 import { RULES_MAP, run } from '../src/main';
-import { PackageJson } from 'type-fest';
-import { readFileSync } from 'fs';
 import { validateVersionRanges } from '../src/rules/ranges';
 import { validateVersionTags } from '../src/rules/tags';
 
 jest.mock('@actions/core')
-jest.mock('fs')
 jest.mock('../src/rules/ranges')
 jest.mock('../src/rules/tags')
 
-const mockPackageJson = (packageJson: PackageJson) => {
-  (readFileSync as jest.Mock).mockReturnValue(({
+const packageJson = {
+  name: 'my-package-json'
+};
+
+jest.mock('fs', () => ({
+  promises: {
+    access: jest.fn()
+  },
+  readFileSync: jest.fn(() => ({
     toString: jest.fn(() => JSON.stringify(packageJson))
   }))
-};
+}));
 
 describe('main', () => {
   describe('version ranges case', () => {
-    const packageJson = {
-      name: 'my-package-json'
-    };
     const rules = ['ranges', 'tags'];
     beforeEach(() => {
-      mockPackageJson(packageJson);
       (core.getMultilineInput as jest.Mock).mockReturnValue(rules);
       run()
     })
