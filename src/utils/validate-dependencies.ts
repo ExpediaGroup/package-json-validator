@@ -22,6 +22,6 @@ export const validateDependencies = (
 ) => {
   const dependencies = getDependencies(packageJson);
   Object.entries(dependencies).forEach(([packageName, version]) =>
-    method(packageName, version, core.getMultilineInput(extraInputName))
+    method(packageName, version as string, core.getMultilineInput(extraInputName))
   );
 };
