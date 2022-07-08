@@ -46,6 +46,9 @@
       "^.+\\.(j|t)sx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testPathIgnorePatterns": [
+      "lib"
+    ],
     "clearMocks": true
   }
 }
