@@ -15,6 +15,9 @@ inputs:
     description: "Line-separated list of dependency types to validate within your package.json."
     required: false
     default: "dependencies"
+  ignore-packages:
+    description: "Line-separated list of dependencies to skip validation for."
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"

@@ -21,13 +21,20 @@ type Dependencies = keyof Pick<
 
 export const getDependencies = (packageJson: PackageJson): PackageJson.Dependency => {
   const dependencyTypes = core.getMultilineInput('dependency-types') as Dependencies[];
-  const dependencies = dependencyTypes.reduce(
+  const packagesToIgnore = core.getMultilineInput('ignore-packages');
+  const dependencies: Record<string, string> = dependencyTypes.reduce(
     (acc, dependencyType) => ({ ...acc, ...packageJson[dependencyType] }),
     {}
   );
+  const filteredDependencies = Object.keys(dependencies)
+    .filter(dependency => !packagesToIgnore.includes(dependency))
+    .reduce(
+      (acc, dependencyName) => ({ ...acc, [dependencyName]: dependencies[dependencyName] }),
+      {}
+    );
   if (!Object.keys(dependencies).length) {
     core.setFailed('Dependencies in package.json are undefined.');
     throw new Error();
   }
-  return dependencies;
+  return filteredDependencies;
 };

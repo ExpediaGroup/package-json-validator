@@ -2259,12 +2259,16 @@ exports.getDependencies = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const getDependencies = (packageJson) => {
     const dependencyTypes = core.getMultilineInput('dependency-types');
+    const packagesToIgnore = core.getMultilineInput('ignore-packages');
     const dependencies = dependencyTypes.reduce((acc, dependencyType) => (Object.assign(Object.assign({}, acc), packageJson[dependencyType])), {});
+    const filteredDependencies = Object.keys(dependencies)
+        .filter(dependency => !packagesToIgnore.includes(dependency))
+        .reduce((acc, dependencyName) => (Object.assign(Object.assign({}, acc), { [dependencyName]: dependencies[dependencyName] })), {});
     if (!Object.keys(dependencies).length) {
         core.setFailed('Dependencies in package.json are undefined.');
         throw new Error();
     }
-    return dependencies;
+    return filteredDependencies;
 };
 exports.getDependencies = getDependencies;
 

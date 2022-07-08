@@ -75,6 +75,18 @@ steps:
       dependency-types: devDependencies
 ```
 
+Specify `ignore-packages` to skip validation entirely for certain packages. Optionally provide a newline separated list of package names here.
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v2
+
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+      rules: ranges
+      ignore-packages: package-to-ignore
+```
+
 ### Other Usages
 You may also enforce multiple rules (and pass additional inputs) like this:
 ```yaml
@@ -96,6 +108,9 @@ steps:
       dependency-types: |
         dependencies
         devDependencies
+      ignore-packages: |
+        package-to-ignore
+        another-package-to-ignore
 ```
 
 # Contact

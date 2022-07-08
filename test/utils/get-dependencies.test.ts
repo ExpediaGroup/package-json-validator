@@ -29,13 +29,13 @@ describe('getDependencies', () => {
     }
 
     beforeEach(() => {
-      (core.getMultilineInput as jest.Mock).mockReturnValue(['dependencies']);
+      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies'] : []);
       result = getDependencies(packageJson);
     });
 
     it('should return expected result', () => {
       expect(core.setFailed).not.toHaveBeenCalled();
-      expect(result).toMatchObject(dependencies);
+      expect(result).toEqual(dependencies);
     });
   });
 
@@ -44,23 +44,27 @@ describe('getDependencies', () => {
     const packageJson: PackageJson = {
       name: 'my-package-json',
       dependencies: {
-        'some-package': '1.2.3'
+        'some-package': '1.2.3',
+        'some-package-2': '4.5.6'
       },
       devDependencies: {
-        'some-other-package': '1.2.3'
+        'some-other-package': '1.2.3',
+        'some-other-package-2': '4.5.6'
       }
     }
 
     beforeEach(() => {
-      (core.getMultilineInput as jest.Mock).mockReturnValue(['dependencies', 'devDependencies']);
+      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies', 'devDependencies'] : []);
       result = getDependencies(packageJson);
     });
 
     it('should return expected result', () => {
       expect(core.setFailed).not.toHaveBeenCalled();
-      expect(result).toMatchObject({
+      expect(result).toEqual({
         'some-package': '1.2.3',
-        'some-other-package': '1.2.3'
+        'some-package-2': '4.5.6',
+        'some-other-package': '1.2.3',
+        'some-other-package-2': '4.5.6'
       });
     });
   });
@@ -70,13 +74,38 @@ describe('getDependencies', () => {
       name: 'my-package-json'
     }
 
-    beforeEach(() => {
-      (core.getInput as jest.Mock).mockReturnValue(['dependencies']);
-    });
-
     it('should return expected result', () => {
       expect(() => getDependencies(packageJson)).toThrowError();
       expect(core.setFailed).toHaveBeenCalled();
+    });
+  });
+
+  describe('ignore dependencies case', () => {
+    let result: unknown;
+    const packageJson: PackageJson = {
+      name: 'my-package-json',
+      dependencies: {
+        'some-package': '1.2.3',
+        'some-package-to-ignore': '4.5.6'
+      },
+      devDependencies: {
+        'some-other-package': '1.2.3',
+        'some-other-package-2': '4.5.6'
+      }
+    }
+
+    beforeEach(() => {
+      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies', 'devDependencies'] : ['some-package-to-ignore']);
+      result = getDependencies(packageJson);
+    });
+
+    it('should return expected result', () => {
+      expect(core.setFailed).not.toHaveBeenCalled();
+      expect(result).toEqual({
+        'some-package': '1.2.3',
+        'some-other-package': '1.2.3',
+        'some-other-package-2': '4.5.6'
+      });
     });
   });
 });
