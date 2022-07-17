@@ -22,16 +22,16 @@ jobs:
           node-version-file: .nvmrc
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Run Unit Tests
-        run: yarn test
+        run: npm run test
 
       - name: Package
-        run: yarn package
+        run: npm run package
 
       - name: Compare the expected and actual dist/ directories
         run: |

@@ -8,7 +8,7 @@
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint --quiet --fix ./**/*.ts src/**/*.ts test/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
-    "pre-commit": "yarn lint && yarn format && yarn package && git add .",
+    "pre-commit": "npm run lint && npm run format && npm run package && git add .",
     "prepare": "husky install",
     "test": "jest"
   },
