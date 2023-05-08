@@ -16,6 +16,7 @@ import { PackageJson } from 'type-fest';
 import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
+import { validateResolutions } from './rules/resolutions';
 
 type GithubError = {
   status: number;
@@ -24,8 +25,8 @@ type GithubError = {
 
 export const RULES_MAP: {
   [key: string]: {
-    method: (packageJson: PackageJson, extraInputName: string) => void;
-    extraInputName: string;
+    method: Function;
+    extraInputName?: string;
   };
 } = {
   ranges: {
@@ -35,6 +36,9 @@ export const RULES_MAP: {
   tags: {
     method: validateVersionTags,
     extraInputName: 'allowed-tags'
+  },
+  resolutions: {
+    method: validateResolutions
   }
 };
 

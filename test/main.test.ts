@@ -15,10 +15,12 @@ import * as core from '@actions/core'
 import { RULES_MAP, run } from '../src/main';
 import { validateVersionRanges } from '../src/rules/ranges';
 import { validateVersionTags } from '../src/rules/tags';
+import { validateResolutions } from '../src/rules/resolutions';
 
 jest.mock('@actions/core')
 jest.mock('../src/rules/ranges')
 jest.mock('../src/rules/tags')
+jest.mock('../src/rules/resolutions')
 
 const packageJson = {
   name: 'my-package-json'
@@ -34,8 +36,8 @@ jest.mock('fs', () => ({
 }));
 
 describe('main', () => {
-  describe('version ranges case', () => {
-    const rules = ['ranges', 'tags'];
+  describe('validates all rules', () => {
+    const rules = ['ranges', 'tags', 'resolutions'];
     beforeEach(() => {
       (core.getMultilineInput as jest.Mock).mockReturnValue(rules);
       run()
@@ -44,6 +46,7 @@ describe('main', () => {
     it('should call correct methods', () => {
       expect(validateVersionRanges).toHaveBeenCalledWith(packageJson, RULES_MAP.ranges.extraInputName)
       expect(validateVersionTags).toHaveBeenCalledWith(packageJson, RULES_MAP.tags.extraInputName)
+      expect(validateResolutions).toHaveBeenCalledWith(packageJson, undefined)
     });
   })
 })
