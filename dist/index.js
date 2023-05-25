@@ -2936,7 +2936,7 @@ exports.validateResolutions = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const validateResolutions = (packageJson) => {
     if (packageJson.resolutions) {
-        core.setFailed('Resolutions may not be set. Please investigate the root cause your dependency issues!');
+        core.setFailed('Resolutions may not be set. Please investigate the root cause of your dependency issues!');
     }
 };
 exports.validateResolutions = validateResolutions;

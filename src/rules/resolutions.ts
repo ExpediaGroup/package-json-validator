@@ -17,7 +17,7 @@ import { PackageJson } from 'type-fest';
 export const validateResolutions = (packageJson: PackageJson) => {
   if (packageJson.resolutions) {
     core.setFailed(
-      'Resolutions may not be set. Please investigate the root cause your dependency issues!'
+      'Resolutions may not be set. Please investigate the root cause of your dependency issues!'
     );
   }
 };
