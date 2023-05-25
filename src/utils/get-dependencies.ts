@@ -14,13 +14,13 @@ limitations under the License.
 import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
 
-type Dependencies = keyof Pick<
+export type DependencyType = keyof Pick<
   PackageJson,
   'dependencies' | 'devDependencies' | 'peerDependencies' | 'optionalDependencies'
 >;
 
 export const getDependencies = (packageJson: PackageJson): PackageJson.Dependency => {
-  const dependencyTypes = core.getMultilineInput('dependency-types') as Dependencies[];
+  const dependencyTypes = getDependencyTypes();
   const packagesToIgnore = core.getMultilineInput('ignore-packages');
   const dependencies: Record<string, string> = dependencyTypes.reduce(
     (acc, dependencyType) => ({ ...acc, ...packageJson[dependencyType] }),
@@ -38,3 +38,6 @@ export const getDependencies = (packageJson: PackageJson): PackageJson.Dependenc
   }
   return filteredDependencies;
 };
+
+export const getDependencyTypes = () =>
+  core.getMultilineInput('dependency-types') as DependencyType[];
