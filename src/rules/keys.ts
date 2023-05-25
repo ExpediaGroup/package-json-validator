@@ -14,15 +14,30 @@ limitations under the License.
 import * as core from '@actions/core';
 import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
-import { getDependencies } from '../utils/get-dependencies';
+import { DependencyType, getDependencies, getDependencyTypes } from '../utils/get-dependencies';
 
 export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) => {
   const dependencies = getDependencies(packageJson);
+  const dependencyTypes = getDependencyTypes();
+  const stringifiedPackageJson = readFileSync(packageJsonPath).toString();
+  const stringifiedDependencyObjects = dependencyTypes.map(dependencyType =>
+    getStringifiedDependencyObject(stringifiedPackageJson, dependencyType)
+  );
   Object.keys(dependencies).forEach(dependency => {
-    const stringifiedPackageJson = readFileSync(packageJsonPath).toString();
-    const regexMatches = stringifiedPackageJson.match(new RegExp(`"${dependency}"`, 'g'));
-    if (regexMatches && regexMatches.length > 1) {
-      core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
-    }
+    stringifiedDependencyObjects.forEach(stringifiedDependencyObject => {
+      const regexMatches = stringifiedDependencyObject.match(new RegExp(`"${dependency}"`, 'g'));
+      if (regexMatches && regexMatches.length > 1) {
+        core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+      }
+    });
   });
+};
+
+const getStringifiedDependencyObject = (
+  stringifiedPackageJson: string,
+  dependencyType: DependencyType
+) => {
+  const dependenciesStartIndex = stringifiedPackageJson.indexOf(`"${dependencyType}"`);
+  const dependenciesEndIndex = stringifiedPackageJson.indexOf('}', dependenciesStartIndex);
+  return stringifiedPackageJson.substring(dependenciesStartIndex, dependenciesEndIndex + 1);
 };

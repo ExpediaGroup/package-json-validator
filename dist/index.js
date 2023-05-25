@@ -2820,15 +2820,24 @@ const fs_1 = __nccwpck_require__(147);
 const get_dependencies_1 = __nccwpck_require__(715);
 const validateKeys = (packageJson, packageJsonPath) => {
     const dependencies = (0, get_dependencies_1.getDependencies)(packageJson);
+    const dependencyTypes = (0, get_dependencies_1.getDependencyTypes)();
+    const stringifiedPackageJson = (0, fs_1.readFileSync)(packageJsonPath).toString();
+    const stringifiedDependencyObjects = dependencyTypes.map(dependencyType => getStringifiedDependencyObject(stringifiedPackageJson, dependencyType));
     Object.keys(dependencies).forEach(dependency => {
-        const stringifiedPackageJson = (0, fs_1.readFileSync)(packageJsonPath).toString();
-        const regexMatches = stringifiedPackageJson.match(new RegExp(`"${dependency}"`, 'g'));
-        if (regexMatches && regexMatches.length > 1) {
-            core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
-        }
+        stringifiedDependencyObjects.forEach(stringifiedDependencyObject => {
+            const regexMatches = stringifiedDependencyObject.match(new RegExp(`"${dependency}"`, 'g'));
+            if (regexMatches && regexMatches.length > 1) {
+                core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+            }
+        });
     });
 };
 exports.validateKeys = validateKeys;
+const getStringifiedDependencyObject = (stringifiedPackageJson, dependencyType) => {
+    const dependenciesStartIndex = stringifiedPackageJson.indexOf(`"${dependencyType}"`);
+    const dependenciesEndIndex = stringifiedPackageJson.indexOf('}', dependenciesStartIndex);
+    return stringifiedPackageJson.substring(dependenciesStartIndex, dependenciesEndIndex + 1);
+};
 
 
 /***/ }),
@@ -3047,10 +3056,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getDependencies = void 0;
+exports.getDependencyTypes = exports.getDependencies = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const getDependencies = (packageJson) => {
-    const dependencyTypes = core.getMultilineInput('dependency-types');
+    const dependencyTypes = (0, exports.getDependencyTypes)();
     const packagesToIgnore = core.getMultilineInput('ignore-packages');
     const dependencies = dependencyTypes.reduce((acc, dependencyType) => (Object.assign(Object.assign({}, acc), packageJson[dependencyType])), {});
     const filteredDependencies = Object.keys(dependencies)
@@ -3063,6 +3072,8 @@ const getDependencies = (packageJson) => {
     return filteredDependencies;
 };
 exports.getDependencies = getDependencies;
+const getDependencyTypes = () => core.getMultilineInput('dependency-types');
+exports.getDependencyTypes = getDependencyTypes;
 
 
 /***/ }),
