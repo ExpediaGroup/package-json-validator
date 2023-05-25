@@ -9,12 +9,12 @@ jest.mock('@actions/core');
 (getMultilineInput as jest.Mock).mockReturnValue(['dependencies', 'devDependencies']);
 
 describe('keys', () => {
-    it('should fail when package.json contains duplicate keys', () => {
+    it('should fail when package.json contains duplicate keys in dependencies', () => {
         validateKeys(dupedPackageJson, 'test/fixtures/duped-package.json');
         expect(core.setFailed).toHaveBeenCalled();
     });
 
-    it('should fail when package.json contains duplicate keys in dependencies', () => {
+    it('should fail when package.json contains duplicate keys across dependencies and devDependencies', () => {
         validateKeys(dupedPackageJson2, 'test/fixtures/duped-package2.json');
         expect(core.setFailed).toHaveBeenCalled();
     });
