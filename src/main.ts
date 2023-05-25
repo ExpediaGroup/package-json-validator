@@ -17,39 +17,46 @@ import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
 import { validateResolutions } from './rules/resolutions';
+import { validateKeys } from './rules/keys';
 
 type GithubError = {
   status: number;
   message: string;
 };
 
+const pathToPackageJson = './package.json';
+
 export const RULES_MAP: {
   [key: string]: {
     method: Function;
-    extraInputName?: string;
+    extraInput?: string;
   };
 } = {
   ranges: {
     method: validateVersionRanges,
-    extraInputName: 'allowed-ranges'
+    extraInput: 'allowed-ranges'
   },
   tags: {
     method: validateVersionTags,
-    extraInputName: 'allowed-tags'
+    extraInput: 'allowed-tags'
   },
   resolutions: {
     method: validateResolutions
+  },
+  keys: {
+    method: validateKeys,
+    extraInput: pathToPackageJson
   }
 };
 
 export const run = () => {
   try {
-    const packageJson: PackageJson = JSON.parse(readFileSync('./package.json').toString());
+    const packageJson: PackageJson = JSON.parse(readFileSync(pathToPackageJson).toString());
 
     const rules = core.getMultilineInput('rules', { required: true });
     rules.forEach(rule => {
-      const { method, extraInputName } = RULES_MAP[rule];
-      method(packageJson, extraInputName);
+      const { method, extraInput } = RULES_MAP[rule];
+      method(packageJson, extraInput);
     });
   } catch (error) {
     core.setFailed((error as GithubError).message);

@@ -2735,26 +2735,32 @@ const fs_1 = __nccwpck_require__(147);
 const ranges_1 = __nccwpck_require__(507);
 const tags_1 = __nccwpck_require__(130);
 const resolutions_1 = __nccwpck_require__(119);
+const keys_1 = __nccwpck_require__(315);
+const pathToPackageJson = './package.json';
 exports.RULES_MAP = {
     ranges: {
         method: ranges_1.validateVersionRanges,
-        extraInputName: 'allowed-ranges'
+        extraInput: 'allowed-ranges'
     },
     tags: {
         method: tags_1.validateVersionTags,
-        extraInputName: 'allowed-tags'
+        extraInput: 'allowed-tags'
     },
     resolutions: {
         method: resolutions_1.validateResolutions
+    },
+    keys: {
+        method: keys_1.validateKeys,
+        extraInput: pathToPackageJson
     }
 };
 const run = () => {
     try {
-        const packageJson = JSON.parse((0, fs_1.readFileSync)('./package.json').toString());
+        const packageJson = JSON.parse((0, fs_1.readFileSync)(pathToPackageJson).toString());
         const rules = core.getMultilineInput('rules', { required: true });
         rules.forEach(rule => {
-            const { method, extraInputName } = exports.RULES_MAP[rule];
-            method(packageJson, extraInputName);
+            const { method, extraInput } = exports.RULES_MAP[rule];
+            method(packageJson, extraInput);
         });
     }
     catch (error) {
@@ -2763,6 +2769,66 @@ const run = () => {
 };
 exports.run = run;
 (0, exports.run)();
+
+
+/***/ }),
+
+/***/ 315:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+/*
+Copyright 2021 Expedia, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateKeys = void 0;
+const core = __importStar(__nccwpck_require__(186));
+const fs_1 = __nccwpck_require__(147);
+const get_dependencies_1 = __nccwpck_require__(715);
+const validateKeys = (packageJson, packageJsonPath) => {
+    const dependencies = (0, get_dependencies_1.getDependencies)(packageJson);
+    Object.keys(dependencies).forEach(dependency => {
+        const stringifiedPackageJson = (0, fs_1.readFileSync)(packageJsonPath).toString();
+        const regexMatches = stringifiedPackageJson.match(new RegExp(dependency, 'g'));
+        if (regexMatches && regexMatches.length > 1) {
+            core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+        }
+    });
+};
+exports.validateKeys = validateKeys;
 
 
 /***/ }),
@@ -2872,7 +2938,7 @@ exports.validateResolutions = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const validateResolutions = (packageJson) => {
     if (packageJson.resolutions) {
-        core.setFailed('Resolutions may not be set. Please investigate the root cause your dependency issues!');
+        core.setFailed('Resolutions may not be set. Please investigate the root cause of your dependency issues!');
     }
 };
 exports.validateResolutions = validateResolutions;

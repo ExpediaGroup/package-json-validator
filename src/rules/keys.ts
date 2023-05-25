@@ -12,12 +12,17 @@ limitations under the License.
 */
 
 import * as core from '@actions/core';
+import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
+import { getDependencies } from '../utils/get-dependencies';
 
-export const validateResolutions = (packageJson: PackageJson) => {
-  if (packageJson.resolutions) {
-    core.setFailed(
-      'Resolutions may not be set. Please investigate the root cause of your dependency issues!'
-    );
-  }
+export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) => {
+  const dependencies = getDependencies(packageJson);
+  Object.keys(dependencies).forEach(dependency => {
+    const stringifiedPackageJson = readFileSync(packageJsonPath).toString();
+    const regexMatches = stringifiedPackageJson.match(new RegExp(dependency, 'g'));
+    if (regexMatches && regexMatches.length > 1) {
+      core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+    }
+  });
 };
