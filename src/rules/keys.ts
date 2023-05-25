@@ -16,7 +16,7 @@ import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
 import { getDependencies } from '../utils/get-dependencies';
 
-export const validateKeys = (packageJson: PackageJson, packageJsonPath = './package.json') => {
+export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) => {
   const dependencies = getDependencies(packageJson);
   Object.keys(dependencies).forEach(dependency => {
     const stringifiedPackageJson = readFileSync(packageJsonPath).toString();

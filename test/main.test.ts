@@ -44,8 +44,8 @@ describe('main', () => {
     })
 
     it('should call correct methods', () => {
-      expect(validateVersionRanges).toHaveBeenCalledWith(packageJson, RULES_MAP.ranges.extraInputName)
-      expect(validateVersionTags).toHaveBeenCalledWith(packageJson, RULES_MAP.tags.extraInputName)
+      expect(validateVersionRanges).toHaveBeenCalledWith(packageJson, RULES_MAP.ranges.extraInput)
+      expect(validateVersionTags).toHaveBeenCalledWith(packageJson, RULES_MAP.tags.extraInput)
       expect(validateResolutions).toHaveBeenCalledWith(packageJson, undefined)
     });
   })

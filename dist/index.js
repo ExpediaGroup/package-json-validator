@@ -2736,29 +2736,31 @@ const ranges_1 = __nccwpck_require__(507);
 const tags_1 = __nccwpck_require__(130);
 const resolutions_1 = __nccwpck_require__(119);
 const keys_1 = __nccwpck_require__(315);
+const pathToPackageJson = './package.json';
 exports.RULES_MAP = {
     ranges: {
         method: ranges_1.validateVersionRanges,
-        extraInputName: 'allowed-ranges'
+        extraInput: 'allowed-ranges'
     },
     tags: {
         method: tags_1.validateVersionTags,
-        extraInputName: 'allowed-tags'
+        extraInput: 'allowed-tags'
     },
     resolutions: {
         method: resolutions_1.validateResolutions
     },
     keys: {
-        method: keys_1.validateKeys
+        method: keys_1.validateKeys,
+        extraInput: pathToPackageJson
     }
 };
 const run = () => {
     try {
-        const packageJson = JSON.parse((0, fs_1.readFileSync)('./package.json').toString());
+        const packageJson = JSON.parse((0, fs_1.readFileSync)(pathToPackageJson).toString());
         const rules = core.getMultilineInput('rules', { required: true });
         rules.forEach(rule => {
-            const { method, extraInputName } = exports.RULES_MAP[rule];
-            method(packageJson, extraInputName);
+            const { method, extraInput } = exports.RULES_MAP[rule];
+            method(packageJson, extraInput);
         });
     }
     catch (error) {
@@ -2816,7 +2818,7 @@ exports.validateKeys = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const fs_1 = __nccwpck_require__(147);
 const get_dependencies_1 = __nccwpck_require__(715);
-const validateKeys = (packageJson, packageJsonPath = './package.json') => {
+const validateKeys = (packageJson, packageJsonPath) => {
     const dependencies = (0, get_dependencies_1.getDependencies)(packageJson);
     Object.keys(dependencies).forEach(dependency => {
         const stringifiedPackageJson = (0, fs_1.readFileSync)(packageJsonPath).toString();
