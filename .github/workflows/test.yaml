@@ -58,3 +58,5 @@ jobs:
           rules: |
             ranges
             tags
+            resolutions
+            keys
