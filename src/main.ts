@@ -17,6 +17,7 @@ import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
 import { validateResolutions } from './rules/resolutions';
+import { validateKeys } from './rules/keys';
 
 type GithubError = {
   status: number;
@@ -39,6 +40,9 @@ export const RULES_MAP: {
   },
   resolutions: {
     method: validateResolutions
+  },
+  keys: {
+    method: validateKeys
   }
 };
 

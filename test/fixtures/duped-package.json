@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "some-dependency": "1.0.0",
+    "some-dependency": "2.0.0"
+  }
+}
