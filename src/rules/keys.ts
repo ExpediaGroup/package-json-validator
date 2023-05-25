@@ -20,7 +20,7 @@ export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) 
   const dependencies = getDependencies(packageJson);
   Object.keys(dependencies).forEach(dependency => {
     const stringifiedPackageJson = readFileSync(packageJsonPath).toString();
-    const regexMatches = stringifiedPackageJson.match(new RegExp(dependency, 'g'));
+    const regexMatches = stringifiedPackageJson.match(new RegExp(`"${dependency}"`, 'g'));
     if (regexMatches && regexMatches.length > 1) {
       core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
     }
