@@ -1,26 +1,26 @@
-name: "package-json-validator"
-description: "A Github Action for validating package.json conventions"
-author: "Dan Adajian"
+name: 'package-json-validator'
+description: 'A Github Action for validating package.json conventions'
+author: 'Dan Adajian'
 inputs:
   rules:
-    description: "A line-separated list of rules to validate."
+    description: 'A line-separated list of rules to validate.'
     required: true
   allowed-ranges:
-    description: "Can be used with the ranges rule. This is a line-separated list of package version range specifiers allowed in your package.json. Omitting this input means only exact versions are allowed."
+    description: 'Can be used with the ranges rule. This is a line-separated list of package version range specifiers allowed in your package.json. Omitting this input means only exact versions are allowed.'
     required: false
   allowed-tags:
-    description: "Can be used with the tags rule. Line-separated list of package version tags allowed in your package.json. Omitting this input means no version tags are allowed."
+    description: 'Can be used with the tags rule. Line-separated list of package version tags allowed in your package.json. Omitting this input means no version tags are allowed.'
     required: false
   dependency-types:
-    description: "Line-separated list of dependency types to validate within your package.json."
+    description: 'Line-separated list of dependency types to validate within your package.json.'
     required: false
-    default: "dependencies"
+    default: 'dependencies'
   ignore-packages:
-    description: "Line-separated list of dependencies to skip validation for."
+    description: 'Line-separated list of dependencies to skip validation for.'
     required: false
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node16'
+  main: 'dist/index.js'
 branding:
   icon: file
   color: red

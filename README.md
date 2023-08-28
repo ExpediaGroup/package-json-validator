@@ -9,6 +9,7 @@ A Github Action for validating package.json conventions.
 Use the `rules` input to specify one or more rules you would like to check for your `package.json`.
 
 ### Ranges
+
 The "ranges" rule validates that all package.json dependencies are exact versions, or use only the allowed version ranges specified. [Click here](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) for details about version ranges.
 
 The following usage would allow `"my-package": "1.2.3"` but prevent `"my-package": "^1.2.3"`.
@@ -24,6 +25,7 @@ steps:
 ```
 
 You can also specify `allowed-ranges`. The following would allow `"my-package": "^1.2.3"` but prevent `"my-package": "~1.2.3"`.
+
 ```yaml
 steps:
   - name: Checkout
@@ -36,6 +38,7 @@ steps:
 ```
 
 ### Tags
+
 The "tags" rule validates that all package.json dependencies contain no tagged versions, or use only the allowed tags specified. [Click here](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) for details about tags.
 
 The following usage would allow `"my-package": "1.2.3"` but prevent `"my-package": "1.2.3-alpha.456.0"`.
@@ -64,32 +67,35 @@ steps:
 ```
 
 ### Resolutions
+
 The "resolutions" rule validates that your package.json does not contain the `resolutions` option.
 
 ```yaml
 steps:
-- name: Checkout
-  uses: actions/checkout@v3
+  - name: Checkout
+    uses: actions/checkout@v3
 
-- uses: ExpediaGroup/package-json-validator@v1
-  with:
-  rules: resolutions
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+    rules: resolutions
 ```
 
 ### Keys
+
 The "keys" rule validates that your package.json does not contain duplicate dependency keys.
 
 ```yaml
 steps:
-- name: Checkout
-  uses: actions/checkout@v3
+  - name: Checkout
+    uses: actions/checkout@v3
 
-- uses: ExpediaGroup/package-json-validator@v1
-  with:
-  rules: keys
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+    rules: keys
 ```
 
 Example invalid package.json this will prevent:
+
 ```json
 {
   "dependencies": {
@@ -102,6 +108,7 @@ Example invalid package.json this will prevent:
 ## Other Inputs
 
 Specify `dependency-types` to denote which type of package.json dependencies you wish to validate. Valid options include `dependencies`, `devDependencies`, `peerDependencies`, and `optionalDependencies`. Defaults to `dependencies`.
+
 ```yaml
 steps:
   - name: Checkout
@@ -114,6 +121,7 @@ steps:
 ```
 
 Specify `ignore-packages` to skip validation entirely for certain packages. Optionally provide a newline separated list of package names here.
+
 ```yaml
 steps:
   - name: Checkout
@@ -126,7 +134,9 @@ steps:
 ```
 
 ### Other Usages
+
 You may also enforce multiple rules (and pass additional inputs) like this:
+
 ```yaml
 steps:
   - name: Checkout
@@ -155,8 +165,8 @@ steps:
 
 This project is part of Expedia Group Open Source but also maintained by [Dan Adajian](https://github.com/danadajian)
 
-* Expedia Group OSS
-    * https://expediagroup.github.io
+- Expedia Group OSS
+  - https://expediagroup.github.io
 
 # License
 
