@@ -2,8 +2,8 @@ name: Check PR Title
 
 on:
   pull_request:
-    branches: [ main ]
-    types: [ edited, opened, reopened, synchronize ]
+    branches: [main]
+    types: [edited, opened, reopened, synchronize]
 
 jobs:
   test:
