@@ -18,6 +18,7 @@ import { validateVersionRanges } from './rules/ranges';
 import { validateVersionTags } from './rules/tags';
 import { validateResolutions } from './rules/resolutions';
 import { validateKeys } from './rules/keys';
+import { validateAlphabetical } from './rules/alphabetical';
 
 type GithubError = {
   status: number;
@@ -46,6 +47,9 @@ export const RULES_MAP: {
   keys: {
     method: validateKeys,
     extraInput: pathToPackageJson
+  },
+  alphabetical: {
+    method: validateAlphabetical
   }
 };
 
