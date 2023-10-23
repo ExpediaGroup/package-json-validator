@@ -61,3 +61,6 @@ jobs:
             resolutions
             keys
             alphabetical
+          dependency-types: |
+            dependencies
+            devDependencies
