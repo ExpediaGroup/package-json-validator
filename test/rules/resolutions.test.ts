@@ -5,7 +5,7 @@ import * as core from '@actions/core';
 jest.mock('@actions/core');
 
 describe('resolutions', () => {
-    it('should fail when resolutions are present', function () {
+    it('should fail when resolutions are present',  () => {
         const packageJson: PackageJson = {
             dependencies: {},
             resolutions: {
@@ -16,7 +16,7 @@ describe('resolutions', () => {
         expect(core.setFailed).toHaveBeenCalled();
     });
 
-    it('should not fail when resolutions are not present', function () {
+    it('should not fail when resolutions are not present',  () => {
         const packageJson: PackageJson = {
             dependencies: {}
         };

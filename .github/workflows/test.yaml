@@ -60,3 +60,7 @@ jobs:
             tags
             resolutions
             keys
+            alphabetical
+          dependency-types: |
+            dependencies
+            devDependencies
