@@ -30,7 +30,7 @@
   "devDependencies": {
     "@swc/jest": "0.2.29",
     "@types/jest": "29.5.11",
-    "@typescript-eslint/eslint-plugin": "6.14.0",
+    "@typescript-eslint/eslint-plugin": "6.15.0",
     "@vercel/ncc": "0.38.1",
     "eslint": "8.48.0",
     "eslint-plugin-github": "4.9.2",
