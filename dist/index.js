@@ -25796,7 +25796,7 @@ const validateKeys = (packageJson, packageJsonPath) => {
     const dependencies = (0, get_dependencies_1.getDependencies)(packageJson);
     const dependencyTypes = (0, get_dependencies_1.getDependencyTypes)();
     const stringifiedPackageJson = (0, fs_1.readFileSync)(packageJsonPath).toString();
-    const stringifiedDependencyObjects = dependencyTypes.map(dependencyType => getStringifiedDependencyObject(stringifiedPackageJson, dependencyType));
+    const stringifiedDependencyObjects = dependencyTypes.map(dependencyType => getStringifiedPackageJsonObject(dependencyType, stringifiedPackageJson));
     Object.keys(dependencies).forEach(dependency => {
         stringifiedDependencyObjects.forEach(stringifiedDependencyObject => {
             const regexMatches = stringifiedDependencyObject.match(new RegExp(`"${dependency}"`, 'g'));
@@ -25805,12 +25805,20 @@ const validateKeys = (packageJson, packageJsonPath) => {
             }
         });
     });
+    if (packageJson.scripts) {
+        Object.keys(packageJson.scripts).forEach(script => {
+            const regexMatches = getStringifiedPackageJsonObject('scripts', stringifiedPackageJson).match(new RegExp(`"${script}"`, 'g'));
+            if (regexMatches && regexMatches.length > 1) {
+                core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+            }
+        });
+    }
 };
 exports.validateKeys = validateKeys;
-const getStringifiedDependencyObject = (stringifiedPackageJson, dependencyType) => {
-    const dependenciesStartIndex = stringifiedPackageJson.indexOf(`"${dependencyType}"`);
-    const dependenciesEndIndex = stringifiedPackageJson.indexOf('}', dependenciesStartIndex);
-    return stringifiedPackageJson.substring(dependenciesStartIndex, dependenciesEndIndex + 1);
+const getStringifiedPackageJsonObject = (field, stringifiedPackageJson) => {
+    const startIndex = stringifiedPackageJson.indexOf(`"${field}"`);
+    const endIndex = stringifiedPackageJson.indexOf('}', startIndex);
+    return stringifiedPackageJson.substring(startIndex, endIndex + 1);
 };
 
 

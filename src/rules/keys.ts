@@ -14,14 +14,14 @@ limitations under the License.
 import * as core from '@actions/core';
 import { readFileSync } from 'fs';
 import { PackageJson } from 'type-fest';
-import { DependencyType, getDependencies, getDependencyTypes } from '../utils/get-dependencies';
+import { getDependencies, getDependencyTypes } from '../utils/get-dependencies';
 
 export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) => {
   const dependencies = getDependencies(packageJson);
   const dependencyTypes = getDependencyTypes();
   const stringifiedPackageJson = readFileSync(packageJsonPath).toString();
   const stringifiedDependencyObjects = dependencyTypes.map(dependencyType =>
-    getStringifiedDependencyObject(stringifiedPackageJson, dependencyType)
+    getStringifiedPackageJsonObject(dependencyType, stringifiedPackageJson)
   );
   Object.keys(dependencies).forEach(dependency => {
     stringifiedDependencyObjects.forEach(stringifiedDependencyObject => {
@@ -31,13 +31,20 @@ export const validateKeys = (packageJson: PackageJson, packageJsonPath: string) 
       }
     });
   });
+  if (packageJson.scripts) {
+    Object.keys(packageJson.scripts).forEach(script => {
+      const regexMatches = getStringifiedPackageJsonObject('scripts', stringifiedPackageJson).match(
+        new RegExp(`"${script}"`, 'g')
+      );
+      if (regexMatches && regexMatches.length > 1) {
+        core.setFailed(`Duplicate keys found in package.json: ${regexMatches}`);
+      }
+    });
+  }
 };
 
-const getStringifiedDependencyObject = (
-  stringifiedPackageJson: string,
-  dependencyType: DependencyType
-) => {
-  const dependenciesStartIndex = stringifiedPackageJson.indexOf(`"${dependencyType}"`);
-  const dependenciesEndIndex = stringifiedPackageJson.indexOf('}', dependenciesStartIndex);
-  return stringifiedPackageJson.substring(dependenciesStartIndex, dependenciesEndIndex + 1);
+const getStringifiedPackageJsonObject = (field: string, stringifiedPackageJson: string) => {
+  const startIndex = stringifiedPackageJson.indexOf(`"${field}"`);
+  const endIndex = stringifiedPackageJson.indexOf('}', startIndex);
+  return stringifiedPackageJson.substring(startIndex, endIndex + 1);
 };
