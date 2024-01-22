@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "some-dependency": "1.0.0"
+  },
+  "scripts": {
+    "some-script": "echo Hey",
+    "some-script": "echo Ho"
+  }
+}
