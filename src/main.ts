@@ -29,6 +29,7 @@ const pathToPackageJson = './package.json';
 
 export const RULES_MAP: {
   [key: string]: {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     method: Function;
     extraInput?: string;
   };
@@ -59,8 +60,8 @@ export const run = () => {
 
     const rules = core.getMultilineInput('rules', { required: true });
     rules.forEach(rule => {
-      const { method, extraInput } = RULES_MAP[rule];
-      method(packageJson, extraInput);
+      const { method, extraInput } = RULES_MAP[rule] ?? {};
+      method?.(packageJson, extraInput);
     });
   } catch (error) {
     core.setFailed((error as GithubError).message);

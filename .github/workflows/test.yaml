@@ -16,22 +16,23 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install Dependencies
-        run: npm ci
+        run: bun i
 
       - name: Run Lint
-        run: npm run lint
+        run: bun lint
+
+      - name: Type Check
+        run: bun tsc
 
       - name: Run Unit Tests
-        run: npm run test
+        run: bun jest
 
       - name: Package
-        run: npm run package
+        run: bun package
 
       - name: Compare the expected and actual dist/ directories
         run: |
