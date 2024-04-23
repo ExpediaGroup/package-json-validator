@@ -20,7 +20,7 @@ inputs:
     required: false
 runs:
   using: 'node16'
-  main: 'dist/index.js'
+  main: 'dist/main.js'
 branding:
   icon: file
   color: red
