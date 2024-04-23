@@ -18182,8 +18182,8 @@ var run = () => {
     const packageJson = JSON.parse(readFileSync2(pathToPackageJson).toString());
     const rules = core8.getMultilineInput("rules", { required: true });
     rules.forEach((rule) => {
-      const { method, extraInput } = RULES_MAP[rule];
-      method(packageJson, extraInput);
+      const { method, extraInput } = RULES_MAP[rule] ?? {};
+      method?.(packageJson, extraInput);
     });
   } catch (error) {
     core8.setFailed(error.message);
@@ -18195,4 +18195,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=ADB6739D79C631AC64756e2164756e21
+//# debugId=822CCA53993BA63064756e2164756e21
