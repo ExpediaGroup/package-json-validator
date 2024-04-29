@@ -4,6 +4,11 @@ import * as core from '@actions/core';
 
 jest.mock('@actions/core');
 
+beforeEach(() => {
+    // N.B: Ensure we return empty array to match the default behavior of getMultilineInput
+    (core.getMultilineInput as jest.Mock).mockImplementation(()=> []);
+})
+
 describe('resolutions only', () => {
     it('should fail when resolutions are present',  () => {
         const packageJson: PackageJson = {

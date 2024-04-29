@@ -80,7 +80,7 @@ steps:
     rules: resolutions
 ```
 
-Specify `ignore-packages` to skip resolution validation entirely for certain packages. Optionally provide a newline separated list of package names here.
+Specify `ignore-resolutions` to skip resolution validation entirely for certain packages. Optionally provide a newline separated list of package names here
 
 ```yaml
 steps:

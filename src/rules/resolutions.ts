@@ -17,9 +17,7 @@ import { PackageJson } from 'type-fest';
 export const validateResolutions = (packageJson: PackageJson) => {
   const ignoredResolutions = core.getMultilineInput('ignore-resolutions');
 
-  const skipIgnoreResolutions =
-    !Array.isArray(ignoredResolutions) || ignoredResolutions.length === 0;
-  if (packageJson.resolutions && skipIgnoreResolutions) {
+  if (packageJson.resolutions && !ignoredResolutions.length) {
     core.setFailed(
       'Resolutions may not be set. Please investigate the root cause of your dependency issues!'
     );
@@ -28,8 +26,10 @@ export const validateResolutions = (packageJson: PackageJson) => {
   if (packageJson.resolutions && Array.isArray(ignoredResolutions)) {
     const resolutions = Object.keys(packageJson.resolutions);
 
-    const isMatching = resolutions.every(resolution => ignoredResolutions.includes(resolution));
-    if (!isMatching) {
+    const allResolutionsAreIgnored = resolutions.every(resolution =>
+      ignoredResolutions.includes(resolution)
+    );
+    if (!allResolutionsAreIgnored) {
       core.setFailed(
         'Resolutions contain packages not included in "ignore-resolutions". Please investigate the root cause of your dependency issues!'
       );
