@@ -15,8 +15,14 @@ import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
 
 export const validateResolutions = (packageJson: PackageJson) => {
-  const ignoredResolutions = core.getMultilineInput('ignore-resolutions');
+  const ignoreUntilDate = new Date(core.getInput('ignore-resolutions-until'));
+  const now = new Date();
+  if (packageJson.resolutions && ignoreUntilDate > now) {
+    core.info(`Ignoring resolutions until ${ignoreUntilDate.toISOString()}`);
+    return;
+  }
 
+  const ignoredResolutions = core.getMultilineInput('ignore-resolutions');
   if (packageJson.resolutions && !ignoredResolutions.length) {
     core.setFailed(
       'Resolutions may not be set. Please investigate the root cause of your dependency issues!'

@@ -18102,6 +18102,12 @@ var dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
 // src/rules/resolutions.ts
 var core5 = __toESM(require_core(), 1);
 var validateResolutions = (packageJson) => {
+  const ignoreUntilDate = new Date(core5.getInput("ignore-resolutions-until"));
+  const now = new Date;
+  if (packageJson.resolutions && ignoreUntilDate > now) {
+    core5.info(`Ignoring resolutions until ${ignoreUntilDate.toISOString()}`);
+    return;
+  }
   const ignoredResolutions = core5.getMultilineInput("ignore-resolutions");
   if (packageJson.resolutions && !ignoredResolutions.length) {
     core5.setFailed("Resolutions may not be set. Please investigate the root cause of your dependency issues!");
@@ -18203,4 +18209,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=86CF08E55347CA0C64756e2164756e21
+//# debugId=B3BC6D9C6519319864756e2164756e21

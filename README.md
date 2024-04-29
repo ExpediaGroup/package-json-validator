@@ -93,6 +93,19 @@ steps:
       ignore-resolutions: resolution-package-to-ignore
 ```
 
+Specify `ignore-resolutions-until` to skip resolution validation entirely for certain amount of time. You can use any format supported by Date constructor [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v3
+
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+      rules: resolutions
+      ignore-resolutions-until: 2000-01-01
+```
+
 ### Keys
 
 The "keys" rule validates that your package.json does not contain duplicate dependency keys.

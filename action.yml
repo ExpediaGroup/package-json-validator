@@ -21,6 +21,9 @@ inputs:
   ignore-resolutions:
     description: 'Line-separated list of dependencies to skip validation for resolutions field.'
     required: false
+  ignore-resolutions-until:
+    description: 'Date string to skip validation for resolutions field for a specific amount of time.'
+    required: false
 runs:
   using: 'node20'
   main: 'dist/main.js'
