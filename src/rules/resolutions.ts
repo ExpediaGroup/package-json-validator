@@ -23,7 +23,7 @@ export const validateResolutions = (packageJson: PackageJson) => {
     );
   }
 
-  if (packageJson.resolutions && Array.isArray(ignoredResolutions)) {
+  if (packageJson.resolutions && ignoredResolutions.length) {
     const resolutions = Object.keys(packageJson.resolutions);
 
     const allResolutionsAreIgnored = resolutions.every(resolution =>

@@ -18106,7 +18106,7 @@ var validateResolutions = (packageJson) => {
   if (packageJson.resolutions && !ignoredResolutions.length) {
     core5.setFailed("Resolutions may not be set. Please investigate the root cause of your dependency issues!");
   }
-  if (packageJson.resolutions && Array.isArray(ignoredResolutions)) {
+  if (packageJson.resolutions && ignoredResolutions.length) {
     const resolutions = Object.keys(packageJson.resolutions);
     const allResolutionsAreIgnored = resolutions.every((resolution) => ignoredResolutions.includes(resolution));
     if (!allResolutionsAreIgnored) {
@@ -18203,4 +18203,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=C5E334D19AEA706564756e2164756e21
+//# debugId=86CF08E55347CA0C64756e2164756e21
