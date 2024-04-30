@@ -18102,8 +18102,16 @@ var dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
 // src/rules/resolutions.ts
 var core5 = __toESM(require_core(), 1);
 var validateResolutions = (packageJson) => {
-  if (packageJson.resolutions) {
+  const ignoredResolutions = core5.getMultilineInput("ignore-resolutions");
+  if (packageJson.resolutions && !ignoredResolutions.length) {
     core5.setFailed("Resolutions may not be set. Please investigate the root cause of your dependency issues!");
+  }
+  if (packageJson.resolutions && ignoredResolutions.length) {
+    const resolutions = Object.keys(packageJson.resolutions);
+    const allResolutionsAreIgnored = resolutions.every((resolution) => ignoredResolutions.includes(resolution));
+    if (!allResolutionsAreIgnored) {
+      core5.setFailed('Resolutions contain packages not included in "ignore-resolutions". Please investigate the root cause of your dependency issues!');
+    }
   }
 };
 
@@ -18195,4 +18203,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=822CCA53993BA63064756e2164756e21
+//# debugId=86CF08E55347CA0C64756e2164756e21

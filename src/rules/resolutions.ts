@@ -15,9 +15,24 @@ import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
 
 export const validateResolutions = (packageJson: PackageJson) => {
-  if (packageJson.resolutions) {
+  const ignoredResolutions = core.getMultilineInput('ignore-resolutions');
+
+  if (packageJson.resolutions && !ignoredResolutions.length) {
     core.setFailed(
       'Resolutions may not be set. Please investigate the root cause of your dependency issues!'
     );
+  }
+
+  if (packageJson.resolutions && ignoredResolutions.length) {
+    const resolutions = Object.keys(packageJson.resolutions);
+
+    const allResolutionsAreIgnored = resolutions.every(resolution =>
+      ignoredResolutions.includes(resolution)
+    );
+    if (!allResolutionsAreIgnored) {
+      core.setFailed(
+        'Resolutions contain packages not included in "ignore-resolutions". Please investigate the root cause of your dependency issues!'
+      );
+    }
   }
 };

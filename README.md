@@ -80,6 +80,19 @@ steps:
     rules: resolutions
 ```
 
+Specify `ignore-resolutions` to skip resolution validation entirely for certain packages. Optionally provide a newline separated list of package names here
+
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v3
+
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+      rules: resolutions
+      ignore-resolutions: resolution-package-to-ignore
+```
+
 ### Keys
 
 The "keys" rule validates that your package.json does not contain duplicate dependency keys.

@@ -18,6 +18,9 @@ inputs:
   ignore-packages:
     description: 'Line-separated list of dependencies to skip validation for.'
     required: false
+  ignore-resolutions:
+    description: 'Line-separated list of dependencies to skip validation for resolutions field.'
+    required: false
 runs:
   using: 'node20'
   main: 'dist/main.js'
