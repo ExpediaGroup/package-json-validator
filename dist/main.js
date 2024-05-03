@@ -18102,11 +18102,14 @@ var dependencySatisfiesAllowedTags = (packageName, version, allowedTags) => {
 // src/rules/resolutions.ts
 var core5 = __toESM(require_core(), 1);
 var validateResolutions = (packageJson) => {
-  const ignoreUntilDate = new Date(core5.getInput("ignore-resolutions-until"));
-  const now = new Date;
-  if (packageJson.resolutions && ignoreUntilDate > now) {
-    core5.info(`Ignoring resolutions until ${ignoreUntilDate.toISOString()}`);
-    return;
+  const ignoreResolutionsUntil = core5.getInput("ignore-resolutions-until");
+  if (packageJson.resolutions && ignoreResolutionsUntil) {
+    const ignoreUntilDate = new Date(ignoreResolutionsUntil);
+    const now = new Date;
+    if (ignoreUntilDate > now) {
+      core5.info(`Ignoring resolutions until ${ignoreUntilDate.toISOString()}`);
+      return;
+    }
   }
   const ignoredResolutions = core5.getMultilineInput("ignore-resolutions");
   if (packageJson.resolutions && !ignoredResolutions.length) {
@@ -18209,4 +18212,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=B3BC6D9C6519319864756e2164756e21
+//# debugId=653C660A130B963164756e2164756e21

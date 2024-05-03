@@ -136,6 +136,29 @@ describe("ignore-resolutions-until", () => {
         expect(core.info).not.toHaveBeenCalledWith();
     });
 
+    it('should fail when some resolutions are provided and ignore-resolutions-until is not set',  () => {
+        // 1. Arrange
+        jest.setSystemTime(new Date("2021-01-31"));
+        (core.getInput as jest.Mock).mockImplementation(input => input === 'ignore-resolutions-until' ? "" : "");
+
+        // 2. Act
+        const packageJson: PackageJson = {
+            dependencies: {},
+            resolutions: {
+                "@test/package-foo": 'resolution',
+                "@test/package-bar": 'resolution'
+            }
+        };
+        validateResolutions(packageJson);
+
+        // 3. Assert
+        expect(core.getInput).toHaveBeenCalledWith("ignore-resolutions-until");
+        expect(core.getMultilineInput).toHaveBeenCalledWith("ignore-resolutions");
+
+        expect(core.setFailed).toHaveBeenCalledWith('Resolutions may not be set. Please investigate the root cause of your dependency issues!');
+        expect(core.info).not.toHaveBeenCalledWith();
+    });
+
     it('should not fail when matching resolution is present in package.json and ignore list, while ignore-resolutions-until is provided with date in the past',  () => {
         // 1. Arrange
         jest.setSystemTime(new Date("2021-01-31"));
