@@ -25,7 +25,7 @@ type GithubError = {
   message: string;
 };
 
-const pathToPackageJson = './package.json';
+const pathToPackageJson = core.getInput('package-json-location') || './package.json';
 
 export const RULES_MAP: {
   [key: string]: {

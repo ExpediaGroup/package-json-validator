@@ -24,6 +24,9 @@ inputs:
   ignore-resolutions-until:
     description: 'Date string to skip validation for resolutions field for a specific amount of time.'
     required: false
+  package-json-location:
+    description: 'The location of the package.json to validate'
+    required: false
 runs:
   using: 'node20'
   main: 'dist/main.js'

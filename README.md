@@ -133,6 +133,19 @@ Example invalid package.json this will prevent:
 
 ## Other Inputs
 
+Specify `package-json-location` to specify another location for the package.json to validate. Defaults to `./package.json`.
+
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v3
+
+  - uses: ExpediaGroup/package-json-validator@v1
+    with:
+      rules: ranges
+      package-json-location: ./project/package.json
+```
+
 Specify `dependency-types` to denote which type of package.json dependencies you wish to validate. Valid options include `dependencies`, `devDependencies`, `peerDependencies`, and `optionalDependencies`. Defaults to `dependencies`.
 
 ```yaml
