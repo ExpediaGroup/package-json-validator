@@ -18173,7 +18173,7 @@ var validateAlphabetical = (packageJson) => {
 };
 
 // src/main.ts
-var pathToPackageJson = "./package.json";
+var pathToPackageJson = core8.getInput("package-json-location") || "./package.json";
 var RULES_MAP = {
   ranges: {
     method: validateVersionRanges,
@@ -18212,4 +18212,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=653C660A130B963164756e2164756e21
+//# debugId=6956EC3BADF63C5C64756e2164756e21
