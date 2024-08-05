@@ -29,7 +29,7 @@ const pathToPackageJson = core.getInput('package-json-location') || './package.j
 
 export const RULES_MAP: {
   [key: string]: {
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     method: Function;
     extraInput?: string;
   };

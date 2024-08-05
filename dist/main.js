@@ -868,7 +868,7 @@ var require_tunnel = __commonJS((exports) => {
       if (res.statusCode !== 200) {
         debug("tunneling socket could not be established, statusCode=%d", res.statusCode);
         socket.destroy();
-        var error = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+        var error = new Error("tunneling socket could not be established, " + "statusCode=" + res.statusCode);
         error.code = "ECONNRESET";
         options.request.emit("error", error);
         self.removeSocket(placeholder);
@@ -890,7 +890,7 @@ var require_tunnel = __commonJS((exports) => {
     function onError(cause) {
       connectReq.removeAllListeners();
       debug("tunneling socket could not be established, cause=%s\n", cause.message, cause.stack);
-      var error = new Error("tunneling socket could not be established, cause=" + cause.message);
+      var error = new Error("tunneling socket could not be established, " + "cause=" + cause.message);
       error.code = "ECONNRESET";
       options.request.emit("error", error);
       self.removeSocket(placeholder);
@@ -18212,4 +18212,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=6956EC3BADF63C5C64756e2164756e21
+//# debugId=6119AF83CEE10E3264756E2164756E21
