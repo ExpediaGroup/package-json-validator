@@ -11,7 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as core from '@actions/core';
+import { getInput, getMultilineInput, setFailed } from '@actions/core';
 import { PackageJson } from 'type-fest';
 import { readFileSync } from 'fs';
 import { validateVersionRanges } from './rules/ranges';
@@ -25,7 +25,7 @@ type GithubError = {
   message: string;
 };
 
-const pathToPackageJson = core.getInput('package-json-location') || './package.json';
+const pathToPackageJson = getInput('package-json-location') || './package.json';
 
 export const RULES_MAP: {
   [key: string]: {
@@ -58,13 +58,13 @@ export const run = () => {
   try {
     const packageJson: PackageJson = JSON.parse(readFileSync(pathToPackageJson).toString());
 
-    const rules = core.getMultilineInput('rules', { required: true });
+    const rules = getMultilineInput('rules', { required: true });
     rules.forEach(rule => {
       const { method, extraInput } = RULES_MAP[rule] ?? {};
       method?.(packageJson, extraInput);
     });
   } catch (error) {
-    core.setFailed((error as GithubError).message);
+    setFailed((error as GithubError).message);
   }
 };
 

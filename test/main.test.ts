@@ -18,6 +18,11 @@ import { validateVersionTags } from '../src/rules/tags';
 import { validateResolutions } from '../src/rules/resolutions';
 
 jest.mock('@actions/core')
+jest.mock('@actions/core', () => ({
+  getInput: jest.fn(),
+  getMultilineInput: jest.fn(),
+  setFailed: jest.fn(),
+}));
 jest.mock('../src/rules/ranges')
 jest.mock('../src/rules/tags')
 jest.mock('../src/rules/resolutions')
