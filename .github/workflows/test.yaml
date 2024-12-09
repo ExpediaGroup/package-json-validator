@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - merge-queue
+  merge_group:
+    types:
+      - checks_requested
 
 jobs:
   build:
