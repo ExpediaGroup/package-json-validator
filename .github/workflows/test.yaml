@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log Event
-        run: echo ${{ toJson(github.event) }}
+        run: echo ${{ toJSON(github.event) }}
 
       - name: Checkout
         uses: actions/checkout@v4
