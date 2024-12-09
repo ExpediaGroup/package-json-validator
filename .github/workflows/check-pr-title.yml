@@ -2,7 +2,7 @@ name: Check PR Title
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, merge-queue]
     types: [edited, opened, reopened, synchronize]
 
 jobs:
