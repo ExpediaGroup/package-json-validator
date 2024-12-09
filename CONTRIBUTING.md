@@ -4,8 +4,6 @@ We'd love to accept your patches and contributions to this project. There are ju
 
 ## How To Contribute
 
-test
-
 ### 1. Fork this repo
 
 You should create a fork of this project in your account and work from there. You can create a fork by clicking the fork button in GitHub.
