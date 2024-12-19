@@ -6,7 +6,7 @@ We'd love to accept your patches and contributions to this project. There are ju
 
 ### 1. Fork this repo
 
-You should create a fork of this project in your account and work from there. You can create a fork by clicking the fork button in GitHub.
+You should create a fork of this project in your account and work from there. You can create a fork by clicking the fork button in GitHub. test
 
 ### 2. One feature, one branch
 
