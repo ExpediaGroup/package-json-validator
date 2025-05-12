@@ -1,0 +1,16 @@
+name: Push
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  push:
+    name: Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Event
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
