@@ -6,7 +6,7 @@ A Github Action for validating package.json conventions.
 
 ## Rules
 
-Use the `rules` input to specify one or more rules you would like to check for your `package.json`. test
+Use the `rules` input to specify one or more rules you would like to check for your `package.json`.
 
 ### Ranges
 
