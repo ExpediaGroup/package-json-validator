@@ -1,6 +1,6 @@
 {
   "name": "package-json-validator",
-  "packageManager": "bun@1.1.4",
+  "packageManager": "bun@1.2.17",
   "private": true,
   "main": "src/main.ts",
   "type": "module",
