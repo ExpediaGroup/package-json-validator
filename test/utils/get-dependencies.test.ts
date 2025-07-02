@@ -75,7 +75,7 @@ describe('getDependencies', () => {
     }
 
     it('should return expected result', () => {
-      expect(() => getDependencies(packageJson)).toThrowError();
+      expect(() => getDependencies(packageJson)).toThrow()
       expect(core.setFailed).toHaveBeenCalled();
     });
   });
