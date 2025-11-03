@@ -31,7 +31,7 @@ jobs:
         run: bun tsc
 
       - name: Run Unit Tests
-        run: bun jest
+        run: bun test
 
       - name: Package
         run: bun package
