@@ -11,127 +11,109 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as core from '@actions/core';
 import { dependencySatisfiesAllowedRanges } from '../../src/rules/ranges';
+import { afterEach, describe, expect, it, mock } from 'bun:test';
 
-jest.mock('@actions/core');
+const getMultilineInputMock = mock(() => ['dependencies', 'devDependencies']);
+const setFailedMock = mock();
+mock.module('@actions/core', () => ({
+  getMultilineInput: getMultilineInputMock,
+  setFailed: setFailedMock
+}));
 
 describe('dependencySatisfiesAllowedRanges', () => {
-  const packageName = 'some-package'
+  afterEach(() => {
+    mock.clearAllMocks();
+  });
+
+  const packageName = 'some-package';
 
   describe('no allowed version ranges case', () => {
-    const allowedVersionRanges: string[] = []
+    const allowedVersionRanges: string[] = [];
 
     describe('exact version case', () => {
-      const version = '1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '1.2.3';
 
       it('should call core info', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
 
     describe('caret version case', () => {
-      const version = '^1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '^1.2.3';
 
       it('should return expected result', () => {
-        expect(core.setFailed).toHaveBeenCalled();
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).toHaveBeenCalled();
+      });
+    });
 
     describe('canary version case', () => {
-      const version = '0.0.2-canary.323.0'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '0.0.2-canary.323.0';
 
       it('should return expected result', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
-  })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
+  });
 
   describe('some allowed version ranges case', () => {
-    const allowedVersionRanges = ['^', '>=', '*']
+    const allowedVersionRanges = ['^', '>=', '*'];
 
     describe('exact version case', () => {
-      const version = '1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '1.2.3';
 
       it('should return expected result', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
 
     describe('caret version case', () => {
-      const version = '^1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '^1.2.3';
 
       it('should return expected result', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
 
     describe('>= version case', () => {
-      const version = '>=1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '>=1.2.3';
 
       it('should return expected result', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
 
     describe('tilde version case', () => {
-      const version = '~1.2.3'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '~1.2.3';
 
       it('should call core setFailed', () => {
-        expect(core.setFailed).toHaveBeenCalled()
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).toHaveBeenCalled();
+      });
+    });
 
     describe('star version case', () => {
-      const version = '*'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '*';
 
       it('should not call core setFailed', () => {
-        expect(core.setFailed).not.toHaveBeenCalled()
-      })
-    })
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
 
     describe('canary version case', () => {
-      const version = '0.0.2-canary.323.0'
-
-      beforeEach(() => {
-        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges)
-      })
+      const version = '0.0.2-canary.323.0';
 
       it('should return expected result', () => {
-        expect(core.setFailed).not.toHaveBeenCalled();
-      })
-    })
-  })
-})
+        dependencySatisfiesAllowedRanges(packageName, version, allowedVersionRanges);
+        expect(setFailedMock).not.toHaveBeenCalled();
+      });
+    });
+  });
+});

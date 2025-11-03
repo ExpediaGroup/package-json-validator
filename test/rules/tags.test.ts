@@ -11,76 +11,56 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as core from '@actions/core';
 import { dependencySatisfiesAllowedTags } from '../../src/rules/tags';
+import { afterEach, describe, expect, it, mock } from 'bun:test';
 
-jest.mock('@actions/core');
+const getMultilineInputMock = mock();
+const setFailedMock = mock();
+mock.module('@actions/core', () => ({
+  getMultilineInput: getMultilineInputMock,
+  setFailed: setFailedMock
+}));
 
 describe('dependencySatisfiesAllowedTags', () => {
-  const packageName = 'some-package'
-  const allowedTags = ['canary']
+  afterEach(() => {
+    mock.clearAllMocks();
+  });
 
-  describe('clean version case', () => {
-    const version = '1.2.3'
+  const packageName = 'some-package';
+  const allowedTags = ['canary'];
 
-    beforeEach(() => {
-      dependencySatisfiesAllowedTags(packageName, version, allowedTags)
-    })
+  it('clean version case', () => {
+    const version = '1.2.3';
 
-    it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
-    })
-  })
+    dependencySatisfiesAllowedTags(packageName, version, allowedTags);
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
 
-  describe('caret version case', () => {
-    const version = '^1.2.3'
+  it('caret version case', () => {
+    const version = '^1.2.3';
 
-    beforeEach(() => {
-      dependencySatisfiesAllowedTags(packageName, version, allowedTags)
-    })
+    dependencySatisfiesAllowedTags(packageName, version, allowedTags);
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
 
-    it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
-    })
-  })
+  it('canary tag case', () => {
+    const version = '0.0.2-canary.323.0';
 
-  describe('canary tag case', () => {
-    const version = '0.0.2-canary.323.0'
+    dependencySatisfiesAllowedTags(packageName, version, allowedTags);
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
 
-    beforeEach(() => {
-      dependencySatisfiesAllowedTags(packageName, version, allowedTags)
-    })
+  it('caret canary tag case', () => {
+    const version = '^0.0.2-canary.323.0';
 
-    it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
-    })
-  })
+    dependencySatisfiesAllowedTags(packageName, version, allowedTags);
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
 
-  describe('caret canary tag case', () => {
-    const version = '^0.0.2-canary.323.0'
+  it('invalid tag case', () => {
+    const version = '0.0.2-invalid.323.0';
 
-    beforeEach(() => {
-      dependencySatisfiesAllowedTags(packageName, version, allowedTags)
-    })
-
-    it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
-    })
-  })
-
-  describe('invalid tag case', () => {
-    const version = '0.0.2-invalid.323.0'
-
-    beforeEach(() => {
-      dependencySatisfiesAllowedTags(packageName, version, allowedTags)
-    })
-
-    it('should call core setFailed', () => {
-      expect(core.setFailed).toHaveBeenCalled()
-    })
-
-    it('should return expected result', () => {
-      expect(core.setFailed).toHaveBeenCalled();
-    })
-  })
-})
+    dependencySatisfiesAllowedTags(packageName, version, allowedTags);
+    expect(setFailedMock).toHaveBeenCalled();
+  });
+});

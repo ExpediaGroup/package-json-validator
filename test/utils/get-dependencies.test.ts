@@ -11,13 +11,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as core from '@actions/core';
 import { PackageJson } from 'type-fest';
 import { getDependencies } from '../../src/utils/get-dependencies';
+import { afterEach, describe, expect, it, mock } from 'bun:test';
 
-jest.mock('@actions/core');
+const getMultilineInputMock = mock();
+const setFailedMock = mock();
+mock.module('@actions/core', () => ({
+  getMultilineInput: getMultilineInputMock,
+  setFailed: setFailedMock
+}));
 
 describe('getDependencies', () => {
+  afterEach(() => {
+    mock.clearAllMocks();
+  });
+
   describe('dependencies exist case', () => {
     let result: unknown;
     const dependencies = {
@@ -26,15 +35,14 @@ describe('getDependencies', () => {
     const packageJson: PackageJson = {
       name: 'my-package-json',
       dependencies
-    }
-
-    beforeEach(() => {
-      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies'] : []);
-      result = getDependencies(packageJson);
-    });
+    };
 
     it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
+      getMultilineInputMock.mockImplementation(input =>
+        input === 'dependency-types' ? ['dependencies'] : []
+      );
+      result = getDependencies(packageJson);
+      expect(setFailedMock).not.toHaveBeenCalled();
       expect(result).toEqual(dependencies);
     });
   });
@@ -51,15 +59,14 @@ describe('getDependencies', () => {
         'some-other-package': '1.2.3',
         'some-other-package-2': '4.5.6'
       }
-    }
-
-    beforeEach(() => {
-      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies', 'devDependencies'] : []);
-      result = getDependencies(packageJson);
-    });
+    };
 
     it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
+      getMultilineInputMock.mockImplementation(input =>
+        input === 'dependency-types' ? ['dependencies', 'devDependencies'] : []
+      );
+      result = getDependencies(packageJson);
+      expect(setFailedMock).not.toHaveBeenCalled();
       expect(result).toEqual({
         'some-package': '1.2.3',
         'some-package-2': '4.5.6',
@@ -72,11 +79,11 @@ describe('getDependencies', () => {
   describe('dependencies do not exist case', () => {
     const packageJson: PackageJson = {
       name: 'my-package-json'
-    }
+    };
 
     it('should return expected result', () => {
-      expect(() => getDependencies(packageJson)).toThrow()
-      expect(core.setFailed).toHaveBeenCalled();
+      expect(() => getDependencies(packageJson)).toThrow();
+      expect(setFailedMock).toHaveBeenCalled();
     });
   });
 
@@ -92,15 +99,16 @@ describe('getDependencies', () => {
         'some-other-package': '1.2.3',
         'some-other-package-2': '4.5.6'
       }
-    }
-
-    beforeEach(() => {
-      (core.getMultilineInput as jest.Mock).mockImplementation(input => input === 'dependency-types' ? ['dependencies', 'devDependencies'] : ['some-package-to-ignore']);
-      result = getDependencies(packageJson);
-    });
+    };
 
     it('should return expected result', () => {
-      expect(core.setFailed).not.toHaveBeenCalled();
+      getMultilineInputMock.mockImplementation(input =>
+        input === 'dependency-types'
+          ? ['dependencies', 'devDependencies']
+          : ['some-package-to-ignore']
+      );
+      result = getDependencies(packageJson);
+      expect(setFailedMock).not.toHaveBeenCalled();
       expect(result).toEqual({
         'some-package': '1.2.3',
         'some-other-package': '1.2.3',
