@@ -16629,7 +16629,7 @@ var require_lib = __commonJS((exports) => {
       this._maxRetries = 1;
       this._keepAlive = false;
       this._disposed = false;
-      this.userAgent = userAgent;
+      this.userAgent = this._getUserAgentWithOrchestrationId(userAgent);
       this.handlers = handlers || [];
       this.requestOptions = requestOptions;
       if (requestOptions) {
@@ -17011,6 +17011,15 @@ var require_lib = __commonJS((exports) => {
         });
       }
       return proxyAgent;
+    }
+    _getUserAgentWithOrchestrationId(userAgent) {
+      const baseUserAgent = userAgent || "actions/http-client";
+      const orchId = process.env["ACTIONS_ORCHESTRATION_ID"];
+      if (orchId) {
+        const sanitizedId = orchId.replace(/[^a-z0-9_.-]/gi, "_");
+        return `${baseUserAgent} actions_orchestration_id/${sanitizedId}`;
+      }
+      return baseUserAgent;
     }
     _performExponentialBackoff(retryNumber) {
       return __awaiter(this, undefined, undefined, function* () {
@@ -19127,4 +19136,4 @@ export {
   RULES_MAP
 };
 
-//# debugId=D2ADD31AA6A29C1464756E2164756E21
+//# debugId=DB13447BA3D231E564756E2164756E21
