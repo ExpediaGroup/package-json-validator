@@ -1,6 +1,6 @@
 {
   "name": "package-json-validator",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.6",
   "private": true,
   "main": "src/main.ts",
   "type": "module",
@@ -25,16 +25,16 @@
   "author": "Dan Adajian",
   "license": "Apache-2.0",
   "dependencies": {
-    "@actions/core": "2.0.1",
+    "@actions/core": "2.0.2",
     "@actions/github": "7.0.0"
   },
   "devDependencies": {
-    "@types/bun": "1.3.5",
+    "@types/bun": "1.3.6",
     "eslint": "9.39.2",
     "husky": "9.1.7",
     "prettier": "3.7.4",
-    "type-fest": "5.3.1",
+    "type-fest": "5.4.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.51.0"
+    "typescript-eslint": "8.53.0"
   }
 }
