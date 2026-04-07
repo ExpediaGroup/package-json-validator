@@ -60,7 +60,7 @@ describe('resolutions', () => {
     });
 
     it('should fail when non-matching resolution is present in package.json and ignore list', () => {
-      getMultilineInputMock.mockImplementationOnce(input =>
+      getMultilineInputMock.mockImplementationOnce((input: string) =>
         input === 'ignore-resolutions' ? ['@test/package-foo', '@test/package-bar'] : []
       );
 
@@ -81,7 +81,7 @@ describe('resolutions', () => {
     });
 
     it('should not fail when resolutions are not present, but ignore list is', () => {
-      getMultilineInputMock.mockImplementationOnce(input =>
+      getMultilineInputMock.mockImplementationOnce((input: string) =>
         input === 'ignore-resolutions' ? ['@test/package'] : []
       );
 
@@ -96,7 +96,7 @@ describe('resolutions', () => {
   describe('ignore-resolutions-until', () => {
     it('should not fail when some resolutions are provided and ignore-resolutions-until is set with date in the future', () => {
       setSystemTime(new Date('2020-12-31'));
-      getInputMock.mockImplementation(input =>
+      getInputMock.mockImplementation((input: string) =>
         input === 'ignore-resolutions-until' ? '2021-01-01' : ''
       );
 
@@ -118,7 +118,7 @@ describe('resolutions', () => {
 
     it('should fail when some resolutions are provided and ignore-resolutions-until is set with date in the past', () => {
       setSystemTime(new Date('2021-01-31'));
-      getInputMock.mockImplementation(input =>
+      getInputMock.mockImplementation((input: string) =>
         input === 'ignore-resolutions-until' ? '2021-01-01' : ''
       );
 
@@ -142,7 +142,9 @@ describe('resolutions', () => {
 
     it('should fail when some resolutions are provided and ignore-resolutions-until is not set', () => {
       setSystemTime(new Date('2021-01-31'));
-      getInputMock.mockImplementation(input => (input === 'ignore-resolutions-until' ? '' : ''));
+      getInputMock.mockImplementation((input: string) =>
+        input === 'ignore-resolutions-until' ? '' : ''
+      );
 
       const packageJson: PackageJson = {
         dependencies: {},
@@ -164,10 +166,10 @@ describe('resolutions', () => {
 
     it('should not fail when matching resolution is present in package.json and ignore list, while ignore-resolutions-until is provided with date in the past', () => {
       setSystemTime(new Date('2021-01-31'));
-      getInputMock.mockImplementation(input =>
+      getInputMock.mockImplementation((input: string) =>
         input === 'ignore-resolutions-until' ? '2021-01-01' : ''
       );
-      getMultilineInputMock.mockImplementationOnce(input =>
+      getMultilineInputMock.mockImplementationOnce((input: string) =>
         input === 'ignore-resolutions' ? ['@test/package-foo', '@test/package-bar'] : []
       );
 

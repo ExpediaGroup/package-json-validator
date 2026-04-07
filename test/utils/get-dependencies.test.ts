@@ -38,7 +38,7 @@ describe('getDependencies', () => {
     };
 
     it('should return expected result', () => {
-      getMultilineInputMock.mockImplementation(input =>
+      getMultilineInputMock.mockImplementation((input: string) =>
         input === 'dependency-types' ? ['dependencies'] : []
       );
       result = getDependencies(packageJson);
@@ -62,7 +62,7 @@ describe('getDependencies', () => {
     };
 
     it('should return expected result', () => {
-      getMultilineInputMock.mockImplementation(input =>
+      getMultilineInputMock.mockImplementation((input: string) =>
         input === 'dependency-types' ? ['dependencies', 'devDependencies'] : []
       );
       result = getDependencies(packageJson);
@@ -102,7 +102,7 @@ describe('getDependencies', () => {
     };
 
     it('should return expected result', () => {
-      getMultilineInputMock.mockImplementation(input =>
+      getMultilineInputMock.mockImplementation((input: string) =>
         input === 'dependency-types'
           ? ['dependencies', 'devDependencies']
           : ['some-package-to-ignore']

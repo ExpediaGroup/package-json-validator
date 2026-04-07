@@ -34,7 +34,7 @@
     "husky": "9.1.7",
     "prettier": "3.8.1",
     "type-fest": "5.5.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "typescript-eslint": "8.58.0"
   }
 }
