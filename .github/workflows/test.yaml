@@ -20,9 +20,6 @@ jobs:
           echo "head_sha: ${{ github.event.merge_group.head_sha }}"
       - name: No-op
         run: echo "no-op"
-      - name: Fail in merge queue
-        if: github.event_name == 'merge_group'
-        run: exit 1
 
   test:
     runs-on: ubuntu-latest
