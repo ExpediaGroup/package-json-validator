@@ -1,0 +1,16 @@
+name: Merge Group
+
+on:
+  merge_group:
+    types: [checks_requested, destroyed]
+
+jobs:
+  log:
+    name: Log Event
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Event
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
