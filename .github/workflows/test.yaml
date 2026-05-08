@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: No-op
-        run: echo "no-op"
+        run: sleep 180 && echo "no-op"
 
   test:
     runs-on: ubuntu-latest
     steps:
       - name: No-op
-        run: echo "no-op"
+        run: sleep 180 && echo "no-op"
