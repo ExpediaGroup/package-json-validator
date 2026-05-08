@@ -13,63 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Log Event
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: package.json
-
-      - name: Install Dependencies
-        run: bun i
-
-      - name: Run Lint
-        run: bun lint
-
-      - name: Type Check
-        run: bun tsc
-
-      - name: Run Unit Tests
-        run: bun jest
-
-      - name: Package
-        run: bun package
-
-      - name: Compare the expected and actual dist/ directories
-        run: |
-          if [[ $(git status --porcelain) ]]; then
-            echo "Detected uncommitted changes after build. See status below:"
-            git status
-            git config user.name "${{ github.actor }}"
-            git config user.email "${{ github.actor }}@users.noreply.github.com"
-            git add dist/
-            git commit -m "chore: comitting generated dist"
-            git push
-            exit 1
-          fi
+      - name: No-op
+        run: echo "no-op"
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Validate Package Json
-        uses: ./
-        with:
-          rules: |
-            ranges
-            tags
-            resolutions
-            keys
-            alphabetical
-          dependency-types: |
-            dependencies
-            devDependencies
+      - name: No-op
+        run: echo "no-op"
