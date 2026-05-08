@@ -2,7 +2,7 @@ name: Merge Group
 
 on:
   merge_group:
-    types: [checks_requested, destroyed]
+    types: [destroyed]
 
 jobs:
   log:
