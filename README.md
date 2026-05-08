@@ -2,7 +2,7 @@
 
 # package-json-validator
 
-A Github Action for validating package.json conventions. test [MQ-TEST-2]
+A Github Action for validating package.json conventions. test
 
 ## Rules
 
@@ -213,4 +213,4 @@ The scripts and documentation in this project are released under the [Apache 2 L
 
 # Contributions
 
-- Follow semantic-release commit formatting. See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+- Follow semantic-release commit formatting. See [CONTRIBUTING.md](./CONTRIBUTING.md) for details. [MQ-TEST-2]
