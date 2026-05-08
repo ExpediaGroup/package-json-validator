@@ -18,11 +18,17 @@ jobs:
         run: |
           echo "base_sha: ${{ github.event.merge_group.base_sha }}"
           echo "head_sha: ${{ github.event.merge_group.head_sha }}"
+      - name: Sleep in merge queue
+        if: github.event_name == 'merge_group'
+        run: sleep 300
       - name: No-op
         run: echo "no-op"
 
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Sleep in merge queue
+        if: github.event_name == 'merge_group'
+        run: sleep 300
       - name: No-op
         run: echo "no-op"
