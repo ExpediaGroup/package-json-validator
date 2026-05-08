@@ -2,7 +2,7 @@
 
 # package-json-validator
 
-A Github Action for validating package.json conventions. test [MQ-TEST-1]
+A Github Action for validating package.json conventions. test [MQ-TEST-3]
 
 ## Rules
 
