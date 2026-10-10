@@ -1,6 +1,6 @@
 {
   "name": "package-json-validator",
-  "packageManager": "bun@1.4.2",
+  "packageManager": "bun@1.4.3",
   "private": true,
   "main": "src/main.ts",
   "type": "module",
@@ -30,11 +30,11 @@
   },
   "devDependencies": {
     "@types/bun": "1.4.2",
-    "eslint": "10.11.0",
+    "eslint": "10.12.0",
     "husky": "9.1.7",
-    "prettier": "3.9.8",
+    "prettier": "3.9.10",
     "type-fest": "5.10.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.70.1"
+    "typescript-eslint": "8.71.1"
   }
 }
